@@ -10,6 +10,6 @@ import java.awt.image.BufferedImage;
 
 public interface iLayer {
 	public void paintComponent(final Graphics g);
-        public void loadLayer(BufferedImage img);
-        public BufferedImage getLayer();
+        public void loadImage(BufferedImage img);
+        public BufferedImage getImage();
 }

@@ -17,17 +17,17 @@ public class Layer implements iLayer {
     }
 
     public Layer(BufferedImage img) {
-        loadLayer(img);
+        loadImage(img);
     }
 
-    public void loadLayer(BufferedImage img) {
+    public void loadImage(BufferedImage img) {
 
         layerImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
     }
 
     @Override
-    public BufferedImage getLayer() {
+    public BufferedImage getImage() {
         return this.layerImage;
     }
 

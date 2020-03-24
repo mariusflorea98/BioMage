@@ -5,22 +5,17 @@
  */
 package biomage.view.gui;
 
-import biomage.algorithm.Blur;
-import biomage.algorithm.Sharpen;
+ 
 import biomage.algorithm.iFilter;
-import java.awt.Component;
-import java.awt.List;
+import java.awt.FileDialog;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
+ 
 
 /**
  *
@@ -28,14 +23,16 @@ import javax.swing.WindowConstants;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
+    private BufferedImage image = null;
+    private String filename = null;
+    private ImageResult imgResult = null;
+    private FileDialog fd = null;
+    private  List<iFilter> filters = new ArrayList<iFilter>();
+    
     public MainFrame() {
-         
-         
+
         initComponents();
-       
+
     }
 
     /**
@@ -156,22 +153,35 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuOpenActionPerformed
-        // TODO add your handling code here:
+
+        fd = new FileDialog(this, "Choose a file", FileDialog.LOAD);
+        fd.setDirectory("C:\\");
+        fd.setVisible(true);
+
+        filename = fd.getFile();
+        if (filename == null) {
+            System.out.println("You cancelled the choice");
+        } else {
+            System.out.println("You chose " + filename);
+        }
+
+        try {
+            image = ImageIO.read(new File(filename));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }//GEN-LAST:event_jMenuOpenActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ImageResult imgres = new ImageResult();
-      
-      BufferedImage img = null;
-try {
-    img = ImageIO.read(new File("1.jpg"));
-} catch (IOException e) {
-}
-
-    imgres.display(img);
- 
- imgres.setVisible(true);
- imgres.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+//        imgResult = new ImageResult();
+//        imgResult.display(image);
+//        imgResult.setVisible(true);
+//        imgResult.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -209,11 +219,7 @@ try {
         });
     }
 
-    
-    
-    
-    
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

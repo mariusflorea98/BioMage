@@ -2,6 +2,7 @@ package biomage.view.gui;
 
 import biomage.model.Layer;
 import biomage.model.iLayer;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,7 @@ import javax.imageio.ImageIO;
  */
 public class ImageResult extends javax.swing.JFrame {
 
-    private iLayer imgLayer;
+    private iLayer layer;
 
     public ImageResult() {
         initComponents();
@@ -36,6 +37,9 @@ public class ImageResult extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,28 +47,35 @@ public class ImageResult extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 556, Short.MAX_VALUE)
+            .addGap(0, 651, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 406, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("Save As...");
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -108,18 +119,20 @@ public class ImageResult extends javax.swing.JFrame {
                 } catch (IOException e) {
                 }
 
-                ir.imgLayer = new Layer();
-                ir.imgLayer.loadLayer(img);
-                ir.imgLayer.getLayer().getGraphics().drawImage(img, 0, 0, null);
+                ir.layer = new Layer();
+                ir.layer.loadImage(img);
+                ir.layer.getImage().getGraphics().drawImage(img, 0, 0, null);
                 ir.setVisible(true);
             }
         });
     }
     
     public void display(BufferedImage img){
-        this.imgLayer=new Layer();
-        this.imgLayer.loadLayer(img);
-        this.imgLayer.getLayer().getGraphics().drawImage(img, 0, 0, null);
+        this.layer=new Layer();
+        this.layer.loadImage(img);
+        this.setSize(new Dimension(img.getWidth(),img.getHeight()));
+        this.layer.getImage().getGraphics().drawImage(img, 0, 0, null);
+       
     }
     
     public void paint(Graphics g) {
@@ -127,11 +140,14 @@ public class ImageResult extends javax.swing.JFrame {
  
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.drawImage(imgLayer.getLayer(), 0, 0, jPanel1.getWidth(), this.getHeight(), this);
+        g2.drawImage(layer.getImage(), 0, 0, jPanel1.getWidth(), this.getHeight(), this);
     }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
