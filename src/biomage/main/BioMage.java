@@ -5,7 +5,7 @@
  */
 package biomage.main;
 
-import biomage.view.MainFrame;
+import biomage.view.gui.MainFrame;
 
 /**
  *
