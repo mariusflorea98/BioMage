@@ -5,7 +5,6 @@
  */
 package biomage.view.gui;
 
- 
 import biomage.algorithm.iFilter;
 import java.awt.FileDialog;
 import java.awt.image.BufferedImage;
@@ -14,22 +13,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
-import javax.swing.WindowConstants;
- 
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author mariuster
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrameGUI extends javax.swing.JFrame {
 
     private BufferedImage image = null;
     private String filename = null;
-    private ImageResult imgResult = null;
+    private ImageResultGUI imgResult = null;
     private FileDialog fd = null;
-    private  List<iFilter> filters = new ArrayList<iFilter>();
-    
-    public MainFrame() {
+    private List<iFilter> filters = new ArrayList<iFilter>();
+    private FilterChooserGUI dialog;
+    private DefaultListModel listModel = new DefaultListModel();
+    private ArrayList<String> listContent = new ArrayList<>();
+
+    public MainFrameGUI() {
 
         initComponents();
 
@@ -103,7 +104,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -114,7 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 425, Short.MAX_VALUE)
         );
 
         jMenu1.setText("File");
@@ -146,7 +147,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 106, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -175,14 +176,32 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuOpenActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        imgResult = new ImageResult();
+//        imgResult = new ImageResultGUI();
 //        imgResult.display(image);
 //        imgResult.setVisible(true);
 //        imgResult.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        
-        
-        
+
+        /*
+         Remove null check for real time update
+         */
+        if (dialog == null) {
+            dialog = new FilterChooserGUI("Please select an item in the list: ");
+        }
+        dialog.setOnOk(e -> System.out.println("Chosen item: " + dialog.getSelectedItem()));
+        dialog.show();
+
+        listContent.add((String) dialog.getSelectedItem());
+        jListRefresh();
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jListRefresh() {
+        listModel = new DefaultListModel();
+        for (String s : listContent) {
+            listModel.addElement(s);
+        }
+        jList1.setModel(listModel);
+    }
 
     /**
      * @param args the command line arguments
@@ -201,20 +220,21 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrameGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainFrameGUI().setVisible(true);
             }
         });
     }

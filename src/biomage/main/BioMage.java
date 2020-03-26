@@ -5,7 +5,7 @@
  */
 package biomage.main;
 
-import biomage.view.gui.MainFrame;
+import biomage.view.gui.MainFrameGUI;
 
 /**
  *
@@ -19,7 +19,7 @@ public class BioMage {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                new MainFrameGUI().setVisible(true);
             }
         });
     }
