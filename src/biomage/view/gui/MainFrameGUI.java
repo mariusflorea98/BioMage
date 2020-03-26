@@ -72,6 +72,11 @@ public class MainFrameGUI extends javax.swing.JFrame {
         );
 
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Add");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -176,11 +181,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuOpenActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        imgResult = new ImageResultGUI();
-//        imgResult.display(image);
-//        imgResult.setVisible(true);
-//        imgResult.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-
         /*
          Remove null check for real time update
          */
@@ -190,18 +190,19 @@ public class MainFrameGUI extends javax.swing.JFrame {
         dialog.setOnOk(e -> System.out.println("Chosen item: " + dialog.getSelectedItem()));
         dialog.show();
 
-        listContent.add((String) dialog.getSelectedItem());
-        jListRefresh();
+        listModel.addElement(dialog.getSelectedItem());
+        jList1.setModel(listModel);
 
+        listContent.add((String) dialog.getSelectedItem());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jListRefresh() {
-        listModel = new DefaultListModel();
-        for (String s : listContent) {
-            listModel.addElement(s);
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int selectedIndex = jList1.getSelectedIndex();
+        if (selectedIndex != -1) {
+            listModel.remove(selectedIndex);
+            listContent.remove(selectedIndex);
         }
-        jList1.setModel(listModel);
-    }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
