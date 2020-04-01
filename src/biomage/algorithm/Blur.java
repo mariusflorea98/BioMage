@@ -5,14 +5,16 @@
  */
 package biomage.algorithm;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author mariuster
  */
 public class Blur implements iFilter {
-    private final String id="blur";
+    private final String id="Blur";
     
-    public void execute(){
+    public void execute(BufferedImage image){
         System.out.println("blur call");
     }
     

@@ -5,13 +5,13 @@
  */
 package biomage.view.gui;
 
-import biomage.algorithm.iFilter;
+import biomage.algorithm.FilterProcessor;
 import java.awt.FileDialog;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 
@@ -25,10 +25,10 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private String filename = null;
     private ImageResultGUI imgResult = null;
     private FileDialog fd = null;
-    private List<iFilter> filters = new ArrayList<iFilter>();
+
     private FilterChooserGUI dialog;
-    private DefaultListModel listModel = new DefaultListModel();
-    private ArrayList<String> listContent = new ArrayList<>();
+    private DefaultListModel listModel = null;
+    private FilterProcessor filterProc;
 
     public MainFrameGUI() {
 
@@ -49,6 +49,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<String>();
         jPanel3 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -60,15 +61,28 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jList1);
 
+        jButton3.setText("Start");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 79, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jButton2.setText("Delete");
@@ -182,10 +196,11 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         /*
-         Remove null check for real time update
+         Remove null check for real time file to gui update
          */
         if (dialog == null) {
             dialog = new FilterChooserGUI("Please select an item in the list: ");
+            listModel = new DefaultListModel();
         }
         dialog.setOnOk(e -> System.out.println("Chosen item: " + dialog.getSelectedItem()));
         dialog.show();
@@ -193,16 +208,37 @@ public class MainFrameGUI extends javax.swing.JFrame {
         listModel.addElement(dialog.getSelectedItem());
         jList1.setModel(listModel);
 
-        listContent.add((String) dialog.getSelectedItem());
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex != -1) {
             listModel.remove(selectedIndex);
-            listContent.remove(selectedIndex);
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        filterProc = new FilterProcessor(listModel.toArray());
+        try {
+            filterProc.create();
+
+            if (image != filterProc.getImage()) {
+                filterProc.loadImage(image);
+            }
+
+            filterProc.execute();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,6 +280,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;

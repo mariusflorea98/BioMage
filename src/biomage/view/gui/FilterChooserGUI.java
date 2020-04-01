@@ -59,6 +59,7 @@ public class FilterChooserGUI {
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
         dialog = optionPane.createDialog("Select option");
+
     }
 
     private void setupButtons() {

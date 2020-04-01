@@ -1,3 +1,5 @@
-blur
-sobel
-flood fill
+Blur
+
+Sobel
+
+FloodFill

@@ -51,7 +51,7 @@ public class ImageResultGUI extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 523, Short.MAX_VALUE)
         );
 
         jMenu1.setText("File");
@@ -73,8 +73,8 @@ public class ImageResultGUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -131,7 +131,7 @@ public class ImageResultGUI extends javax.swing.JFrame {
     public void display(BufferedImage img){
         this.layer=new Layer();
         this.layer.loadImage(img);
-        this.setSize(new Dimension(img.getWidth(),img.getHeight()));
+        //this.setSize(new Dimension(img.getWidth(),img.getHeight()));
         this.layer.getImage().getGraphics().drawImage(img, 0, 0, null);
        
     }

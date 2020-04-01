@@ -5,12 +5,15 @@
  */
 package biomage.algorithm;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author mariuster
  */
 public interface iFilter {
    
-    public void execute();
+    public void execute(BufferedImage image);
     public String getId();
+ 
 }

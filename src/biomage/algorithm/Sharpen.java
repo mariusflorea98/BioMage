@@ -5,14 +5,16 @@
  */
 package biomage.algorithm;
 
+import java.awt.image.BufferedImage;
+
 /**
  *
  * @author mariuster
  */
 public class Sharpen implements iFilter {
-    private final String id="sharpen";
+    private final String id="Sharpen";
     
-    public void execute(){
+    public void execute(BufferedImage image){
         System.out.println("sharpen call");
         
     }
@@ -20,5 +22,6 @@ public class Sharpen implements iFilter {
     public String getId(){
         return this.id;
     }
+  
     
 }
