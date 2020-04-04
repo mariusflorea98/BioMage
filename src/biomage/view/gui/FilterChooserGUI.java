@@ -24,9 +24,11 @@ public class FilterChooserGUI {
     File file = new File("filters.txt");
 
     public FilterChooserGUI(String message, JList listToDisplay) {
+
         list = listToDisplay;
         label = new JLabel(message);
         createAndDisplayOptionPane();
+
     }
 
     public FilterChooserGUI(String title, String message, JList listToDisplay) {
@@ -55,11 +57,12 @@ public class FilterChooserGUI {
 
     private void createAndDisplayOptionPane() {
         setupButtons();
+
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
         dialog = optionPane.createDialog("Select option");
-
+       
     }
 
     private void setupButtons() {
