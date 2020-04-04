@@ -1,0 +1,155 @@
+package biomage.algorithm;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author User
+ */
+public class Histogram implements iFilter {
+
+    private final String id = "CrudeHistogram";
+    private BufferedImage histo, image;
+    private int[] lumFreq;
+    private int[] lumSelFreq;
+    private int max, maxInd;
+    Color maxRGB;
+    Color red = new Color(150, 0, 0, 200);
+    Color blue = new Color(0, 0, 150, 200);
+    Color green = new Color(0, 150, 0, 200);
+
+    Histogram() {
+    }
+
+    public void apply(BufferedImage img) {
+
+        this.image = img;
+        readPixels();
+        createHistogram();
+
+    }
+
+    public void readPixels() {
+        max = 0;
+        float luminance;
+        lumFreq = new int[101];
+        lumSelFreq = new int[101];
+        for (int y = 0; y < image.getHeight(); y++) {
+            for (int x = 0; x < image.getWidth(); x++) {
+
+                final int rgbBase = image.getRGB(x, y);
+                final int iRBase = (rgbBase >> 16) & 0xFF;
+                final int iGBase = (rgbBase >> 8) & 0xFF;
+                final int iBBase = (rgbBase) & 0xFF;
+                luminance = ((iRBase * 0.2126f
+                        + iGBase * 0.7152f
+                        + iBBase * 0.0722f) / 255);
+
+                if (image.getRGB(x, y) != 0) {
+                    int lumSel = (int) (luminance * 100);
+                    lumSelFreq[lumSel]++;
+
+                    if (max < lumSelFreq[lumSel]) {
+                        max = lumSelFreq[lumSel];
+                        maxInd = lumSel;
+                        maxRGB = new Color(iRBase, iGBase, iBBase);
+                    }
+                } else {
+                    int lum = (int) (luminance * 100);
+                    lumFreq[lum]++;
+                    //remove the else when you will implement the comparison mode
+                    //right now it is used to avoid checking for non flood filled images
+                }
+
+            }
+        }
+
+    }
+
+    public void createHistogram() {
+
+        this.histo = new BufferedImage(503, 800, BufferedImage.TYPE_INT_ARGB);
+        final Graphics2D grImg = (Graphics2D) this.histo.getGraphics();
+
+        grImg.setPaintMode();
+        grImg.setStroke(new BasicStroke(5));
+        JFrame frame = new JFrame();
+        grImg.setFont((new Font("TimesRoman", Font.PLAIN, 18)));
+        Panel panel = new Panel(this.histo);
+
+        for (int i = 1; i < 101; i++) {
+
+            if (lumSelFreq[i] != 0) {
+                grImg.setColor(green);
+                grImg.drawLine(i * 5, (this.histo.getHeight() - lumSelFreq[i] / 100), i * 5, this.histo.getHeight());
+                grImg.setColor(red);
+
+            } else if (lumFreq[i] != 0) {
+                grImg.drawLine(i * 5, (this.histo.getHeight() - lumFreq[i] / 100), i * 5, this.histo.getHeight());
+
+            }
+
+        }
+        grImg.setColor(blue);
+        grImg.drawString("25", 25 * 5, 12);
+        grImg.drawString("50", 50 * 5, 12);
+        grImg.drawString("75", 75 * 5, 12);
+        grImg.setColor(green);
+        grImg.drawString("Selected", 15, 35);
+        grImg.drawString("Most freq. color: ", 15, 55);
+        grImg.drawString("Position: " + maxInd, 15, 75);
+        grImg.drawString("Frequency: " + max, 15, 95);
+        grImg.setColor(red);
+        grImg.drawString("Everything", 15, 15);
+        grImg.setColor(maxRGB);
+        grImg.fill3DRect(145, 40, 20, 20, true);
+
+        frame.setContentPane(panel);
+        frame.pack();
+        frame.setVisible(true);
+
+    }
+
+    public BufferedImage getHistogram() {
+        return this.histo;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+
+    }
+
+}
+
+class Panel extends JPanel {
+
+    BufferedImage image;
+
+    public Panel(BufferedImage img) {
+        this.image = img;
+    }
+
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this);
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(image.getWidth(), image.getHeight());
+    }
+}

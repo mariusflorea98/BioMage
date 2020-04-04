@@ -122,7 +122,7 @@ public class FilterChooserGUI {
             public void run() {
 
                 FilterChooserGUI dialog = new FilterChooserGUI("Please select an item in the list: ");
-                dialog.setOnOk(e -> System.out.println("Chosen item: " + dialog.getSelectedItem()));
+                dialog.setOnOk(e -> System.out.println("You chose: " + dialog.getSelectedItem()));
                 dialog.show();
             }
         });

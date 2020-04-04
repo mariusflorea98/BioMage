@@ -1,8 +1,7 @@
 package biomage.view.gui;
 
 import biomage.model.Layer;
-import biomage.model.iLayer;
-import java.awt.Dimension;
+import biomage.model.iLayer; 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -127,18 +126,19 @@ public class ImageResultGUI extends javax.swing.JFrame {
             }
         });
     }
-    
-    public void display(BufferedImage img){
-        this.layer=new Layer();
+
+    public void display(BufferedImage img) {
+
+        this.layer = new Layer();
         this.layer.loadImage(img);
         //this.setSize(new Dimension(img.getWidth(),img.getHeight()));
         this.layer.getImage().getGraphics().drawImage(img, 0, 0, null);
-       
+
     }
-    
+
     public void paint(Graphics g) {
         super.paint(g);
- 
+
         Graphics2D g2 = (Graphics2D) g;
 
         g2.drawImage(layer.getImage(), 0, 0, jPanel1.getWidth(), this.getHeight(), this);

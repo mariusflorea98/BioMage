@@ -23,12 +23,11 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private BufferedImage image = null;
     private String filename = null;
-    private ImageResultGUI imgResult = null;
     private FileDialog fd = null;
-
-    private FilterChooserGUI dialog;
+    private FilterChooserGUI filterDialog = null;
     private DefaultListModel listModel = null;
-    private FilterProcessor filterProc;
+    private FilterProcessor filterProc = null;
+    private boolean listChanged = false;
 
     public MainFrameGUI() {
 
@@ -198,16 +197,16 @@ public class MainFrameGUI extends javax.swing.JFrame {
         /*
          Remove null check for real time file to gui update
          */
-        if (dialog == null) {
-            dialog = new FilterChooserGUI("Please select an item in the list: ");
+        if (filterDialog == null) {
+            filterDialog = new FilterChooserGUI("Please select an item in the list: ");
             listModel = new DefaultListModel();
         }
-        dialog.setOnOk(e -> System.out.println("Chosen item: " + dialog.getSelectedItem()));
-        dialog.show();
+        filterDialog.setOnOk(e -> System.out.println("You chose: " + filterDialog.getSelectedItem()));
+        filterDialog.show();
 
-        listModel.addElement(dialog.getSelectedItem());
+        listModel.addElement(filterDialog.getSelectedItem());
         jList1.setModel(listModel);
-
+        listChanged = true;
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -215,21 +214,16 @@ public class MainFrameGUI extends javax.swing.JFrame {
         int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex != -1) {
             listModel.remove(selectedIndex);
-
+            listChanged = true;
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        filterProc = new FilterProcessor(listModel.toArray());
+    private void createFilters() {
+
+        filterProc = new FilterProcessor(listModel);
+        listChanged = false;
         try {
             filterProc.create();
-
-            if (image != filterProc.getImage()) {
-                filterProc.loadImage(image);
-            }
-
-            filterProc.execute();
-
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
@@ -237,7 +231,28 @@ public class MainFrameGUI extends javax.swing.JFrame {
         } catch (InstantiationException ex) {
             Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        long startTime = System.nanoTime();
+
+        if (filterProc == null || listChanged == true) {
+            createFilters();
+        }
+
+        if (image != filterProc.getImage()) {
+            filterProc.loadImage(image);
+        }
+        
+       
+        filterProc.execute();
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        double elapsedTimeInSecond = (double) duration / 1_000_000_000;
+        System.out.println("Time: " + elapsedTimeInSecond);  
+       
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

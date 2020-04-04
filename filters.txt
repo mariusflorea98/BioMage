@@ -3,3 +3,4 @@ Blur
 Sobel
 
 FloodFill
+Histogram

@@ -5,14 +5,10 @@
  */
 package biomage.algorithm;
 
-import biomage.view.gui.ImageResultGUI;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.WindowConstants;
 
 /**
  *
@@ -21,47 +17,31 @@ import javax.swing.WindowConstants;
 public class Sobel implements iFilter {
 
     private final String id = "Sobel";
-    private ImageResultGUI imgResult= null;
+ 
+    private float[][] datele = {{-1f, 0, 1f},
+                                {-2f, 0, 2f},
+                                {-1f, 0, 1f}};
+
+    
 
     @Override
-    public void execute(BufferedImage image) {
+    public void apply(BufferedImage image) {
+        
 
-        imgResult = new ImageResultGUI();
         try {
-            imgResult.display(Operator(image));
+            Operator(image);
         } catch (IOException ex) {
             Logger.getLogger(Sobel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        imgResult.setVisible(true);
-        imgResult.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
- 
-        
     }
-    
-    Sobel(){}
-    
+
     @Override
     public String getId() {
         return this.id;
     }
-
-    BufferedImage image;
-    float[][] datele = {{-1f, 0, 1f},
-    {-2f, 0, 2f},
-    {-1f, 0, 1f}};
-
-    Sobel(float[][] kernel, BufferedImage img) {
-        image = img;
-        datele = kernel;
-
-    }
-
-    Sobel(BufferedImage img) {
-        image = img;
-    }
-
-    BufferedImage Operator(BufferedImage image) throws IOException {
+   
+    private void Operator(BufferedImage image) throws IOException {
 
         int x = image.getWidth();
         int y = image.getHeight();
@@ -115,11 +95,9 @@ public class Sobel implements iFilter {
             }
         }
 
-        return image;
-
     }
 
-    public static int getGrayScale(int rgb) {
+    private int getGrayScale(int rgb) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;
         int b = (rgb) & 0xff;
@@ -128,9 +106,4 @@ public class Sobel implements iFilter {
         return gray;
     }
 
-    
-    
-     
-    
-    
 }

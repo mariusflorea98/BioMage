@@ -12,8 +12,10 @@ import java.awt.image.BufferedImage;
  * @author mariuster
  */
 public interface iFilter {
-   
-    public void execute(BufferedImage image);
+
+    public void apply(BufferedImage image);
+
     public String getId();
- 
+     
+
 }

@@ -14,11 +14,13 @@ import java.awt.image.BufferedImage;
 public class Blur implements iFilter {
     private final String id="Blur";
     
-    public void execute(BufferedImage image){
+    public void apply(BufferedImage image){
         System.out.println("blur call");
     }
     
     public String getId(){
         return this.id;
     }
+
+  
 }

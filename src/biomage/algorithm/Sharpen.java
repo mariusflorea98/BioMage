@@ -12,16 +12,16 @@ import java.awt.image.BufferedImage;
  * @author mariuster
  */
 public class Sharpen implements iFilter {
-    private final String id="Sharpen";
-    
-    public void execute(BufferedImage image){
+
+    private final String id = "Sharpen";
+
+    public void apply(BufferedImage image) {
         System.out.println("sharpen call");
-        
+
     }
-    
-    public String getId(){
+
+    public String getId() {
         return this.id;
     }
-  
-    
+
 }
