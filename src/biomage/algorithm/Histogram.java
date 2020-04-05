@@ -118,6 +118,7 @@ public class Histogram implements iFilter {
         grImg.fill3DRect(145, 40, 20, 20, true);
 
         frame.setContentPane(panel);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 

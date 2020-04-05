@@ -29,7 +29,11 @@ public class FilterProcessor {
 
     FilterProcessor() {
     }
-
+    public void close(){
+        if(imgResult!=null){
+            imgResult.dispose();
+        }
+    }
     public FilterProcessor(DefaultListModel listModel) {
 
         this.listModel = listModel;

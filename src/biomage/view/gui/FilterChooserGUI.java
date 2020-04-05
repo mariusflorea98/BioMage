@@ -26,9 +26,9 @@ public class FilterChooserGUI {
     public FilterChooserGUI(String message, JList listToDisplay) {
 
         list = listToDisplay;
-        label = new JLabel(message);
+        label = new JLabel(message);    
         createAndDisplayOptionPane();
-
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     public FilterChooserGUI(String title, String message, JList listToDisplay) {
@@ -62,7 +62,7 @@ public class FilterChooserGUI {
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
         dialog = optionPane.createDialog("Select option");
-       
+
     }
 
     private void setupButtons() {
@@ -100,11 +100,16 @@ public class FilterChooserGUI {
         }
         hide();
     }
+    
+    public void close(){
+        dialog.dispose();
+    }
 
     private void handleCancelButtonClick(ActionEvent e) {
         if (cancelEvent != null) {
             cancelEvent.actionPerformed(e);
         }
+        
         hide();
     }
 
