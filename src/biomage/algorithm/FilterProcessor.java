@@ -20,20 +20,22 @@ import javax.swing.WindowConstants;
  */
 public class FilterProcessor {
 
-    private BufferedImage image = null;
+    private BufferedImage[] images = null;
     private List<iFilter> filters = new ArrayList<>();
-    private Object[] filterObjects;
+    private Object[] filterObjects = null;
     private iFilter filter = null;
     private ImageResultGUI imgResult;
     private DefaultListModel listModel = null;
 
     FilterProcessor() {
     }
-    public void close(){
-        if(imgResult!=null){
+
+    public void close() {
+        if (imgResult != null) {
             imgResult.dispose();
         }
     }
+
     public FilterProcessor(DefaultListModel listModel) {
 
         this.listModel = listModel;
@@ -41,34 +43,36 @@ public class FilterProcessor {
 
     }
 
-    public void loadImage(BufferedImage img) {
+    public void loadImages(BufferedImage[] img) {
+        images = new BufferedImage[img.length];
 
-        ColorModel cm = img.getColorModel();
-        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = img.copyData(null);
-        image = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-
+        for (int i = 0; i < img.length; i++) {
+            ColorModel cm = img[i].getColorModel();
+            boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+            WritableRaster raster = img[i].copyData(null);
+            images[i] = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        }
     }
 
-    public BufferedImage getImage() {
-        return this.image;
+    public BufferedImage[] getImages() {
+        return this.images;
     }
 
     public void execute() {
+        for (BufferedImage image : images) {
+            for (iFilter f : filters) {
+                f.apply(image);
+                display(image);
 
-        for (iFilter f : filters) {
-            f.apply(image);
-            display();
-
+            }
         }
-
     }
 
     public DefaultListModel getListModel() {
         return this.listModel;
     }
 
-    private void display() {
+    private void display(BufferedImage image) {
 
         imgResult = new ImageResultGUI();
         imgResult.display(image);

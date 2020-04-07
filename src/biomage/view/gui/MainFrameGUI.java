@@ -6,15 +6,17 @@
 package biomage.view.gui;
 
 import biomage.algorithm.FilterProcessor;
-import java.awt.Dimension;
-import java.awt.FileDialog;
+import java.awt.Dimension; 
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -22,13 +24,14 @@ import javax.swing.DefaultListModel;
  */
 public class MainFrameGUI extends javax.swing.JFrame {
 
-    private BufferedImage image = null;
-    private String filename = null;
-    private FileDialog fd = null;
+    private String path = "./images";
     private FilterChooserGUI filterDialog = null;
     private DefaultListModel listModel = null;
     private FilterProcessor filterProc = null;
     private boolean listChanged = false;
+    private BufferedImage image;
+    private BufferedImage[] images;
+    private File[] files;
 
     public MainFrameGUI() {
 
@@ -258,22 +261,29 @@ public class MainFrameGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void open() {
-        fd = new FileDialog(this, "Choose a file", FileDialog.LOAD);
-        fd.setDirectory("C:\\");
-        fd.setVisible(true);
 
-        filename = fd.getFile();
-        if (filename == null) {
-            System.out.println("You cancelled the choice");
-        } else {
-            System.out.println("You chose " + filename);
+        JFileChooser chooser = new JFileChooser(path);
+        chooser.setPreferredSize(new Dimension(800, 600));
+
+        chooser.setMultiSelectionEnabled(true);
+
+        chooser.showOpenDialog(null);
+
+        files = chooser.getSelectedFiles();
+        images = new BufferedImage[files.length];
+        for (int i = 0; i < files.length; i++) {
+            try {
+                image = ImageIO.read(files[i]);
+                ColorModel cm = image.getColorModel();
+                boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+                WritableRaster raster = image.copyData(null);
+                images[i] = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+                System.out.println("Selected " + files[i].getName());
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
-        try {
-            image = ImageIO.read(new File(filename));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -323,12 +333,11 @@ public class MainFrameGUI extends javax.swing.JFrame {
             createFilters();
         }
 
-        if (image != filterProc.getImage()) {
-            filterProc.loadImage(image);
+        if (images != filterProc.getImages()) {
+            filterProc.loadImages(images);
         }
 
         filterProc.execute();
-
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
         double elapsedTimeInSecond = (double) duration / 1_000_000_000;
