@@ -63,7 +63,6 @@ public class FilterProcessor {
             for (iFilter f : filters) {
                 f.apply(image);
                 display(image);
-
             }
         }
     }

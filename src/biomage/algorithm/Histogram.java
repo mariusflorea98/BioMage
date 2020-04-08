@@ -12,6 +12,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -26,23 +28,33 @@ public class Histogram implements iFilter {
     private int[] lumFreq;
     private int[] lumSelFreq;
     private int max, maxInd;
-    Color maxRGB;
-    Color red = new Color(150, 0, 0, 200);
-    Color blue = new Color(0, 0, 150, 200);
-    Color green = new Color(0, 150, 0, 200);
+
+    private int panelWidth, panelHeight;
+    private Color maxRGB;
+
+    private final Color red = new Color(150, 0, 0, 200);
+    private final Color blue = new Color(0, 0, 150, 200);
+    private final Color green = new Color(0, 150, 0, 200);
 
     Histogram() {
     }
 
     public void apply(BufferedImage img) {
-
         this.image = img;
+        setSize();
         readPixels();
         createHistogram();
 
     }
 
-    public void readPixels() {
+    private void setSize() {
+        panelWidth = 503 + image.getWidth() / 2;
+        panelHeight = 500;
+
+    }
+
+    private void readPixels() {
+
         max = 0;
         float luminance;
         lumFreq = new int[101];
@@ -79,9 +91,9 @@ public class Histogram implements iFilter {
 
     }
 
-    public void createHistogram() {
+    private void createHistogram() {
 
-        this.histo = new BufferedImage(503, 800, BufferedImage.TYPE_INT_ARGB);
+        this.histo = new BufferedImage(panelWidth, panelHeight, BufferedImage.TYPE_INT_ARGB);
         final Graphics2D grImg = (Graphics2D) this.histo.getGraphics();
 
         grImg.setPaintMode();
@@ -103,6 +115,8 @@ public class Histogram implements iFilter {
             }
 
         }
+
+
         grImg.setColor(blue);
         grImg.drawString("25", 25 * 5, 12);
         grImg.drawString("50", 50 * 5, 12);

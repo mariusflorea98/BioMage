@@ -17,17 +17,16 @@ import java.util.logging.Logger;
 public class Sobel implements iFilter {
 
     private final String id = "Sobel";
- 
-    private float[][] datele = {{-1f, 0, 1f},
-                                {-2f, 0, 2f},
-                                {-1f, 0, 1f}};
-
+    private iKernel kernel;
+    private float[][] datele ;
     
 
     @Override
     public void apply(BufferedImage image) {
+        KernelFactory kf = new KernelFactory();
+        this.kernel=kf.Sobel();
+        datele=this.kernel.getKernel();
         
-
         try {
             Operator(image);
         } catch (IOException ex) {
