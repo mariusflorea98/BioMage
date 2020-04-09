@@ -5,6 +5,7 @@
  */
 package biomage.algorithm;
 
+import biomage.algorithm.template.iFilterTemplate;
 import java.awt.image.BufferedImage;
 
 /**
@@ -16,6 +17,8 @@ public interface iFilter {
     public void apply(BufferedImage image);
 
     public String getId();
-     
-
+    
+    public void loadTemplate(iFilterTemplate template);
+    public iFilterTemplate getTemplate();
+    
 }

@@ -5,15 +5,17 @@ package biomage.algorithm;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import biomage.algorithm.template.HistogramTemplate;
+import biomage.algorithm.template.iFilterTemplate;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
+import java.awt.Graphics; 
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,9 +30,9 @@ public class Histogram implements iFilter {
     private int[] lumFreq;
     private int[] lumSelFreq;
     private int max, maxInd;
-
     private int panelWidth, panelHeight;
     private Color maxRGB;
+    private HistogramTemplate template;
 
     private final Color red = new Color(150, 0, 0, 200);
     private final Color blue = new Color(0, 0, 150, 200);
@@ -40,7 +42,12 @@ public class Histogram implements iFilter {
     }
 
     public void apply(BufferedImage img) {
-        this.image = img;
+
+        ColorModel cm = img.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = img.copyData(null);
+        this.image = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+
         setSize();
         readPixels();
         createHistogram();
@@ -48,7 +55,7 @@ public class Histogram implements iFilter {
     }
 
     private void setSize() {
-        panelWidth = 503 + image.getWidth() / 2;
+        panelWidth = 503;
         panelHeight = 500;
 
     }
@@ -116,7 +123,7 @@ public class Histogram implements iFilter {
 
         }
 
-
+        
         grImg.setColor(blue);
         grImg.drawString("25", 25 * 5, 12);
         grImg.drawString("50", 50 * 5, 12);
@@ -146,6 +153,16 @@ public class Histogram implements iFilter {
     public String getId() {
         return this.id;
 
+    }
+
+    @Override
+    public void loadTemplate(iFilterTemplate hTemp) {
+        this.template = (HistogramTemplate) hTemp;
+    }
+
+    @Override
+    public iFilterTemplate getTemplate() {
+       return this.template;
     }
 
 }

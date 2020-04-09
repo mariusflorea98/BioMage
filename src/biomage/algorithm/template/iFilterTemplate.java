@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biomage.algorithm;
+package biomage.algorithm.template;
+ 
+import javax.swing.JPanel;
+
 
 /**
  *
  * @author Marius
  */
-public class SobelTemplate implements iFilterTemplate{
-    
-    iKernel kernel;
-    
-    
+public interface iFilterTemplate {
+   
+    public JPanel getPanel();
+ 
+    public String getId();
 }

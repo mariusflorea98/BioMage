@@ -3,36 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biomage.algorithm;
+package biomage.algorithm.template;
 
-import biomage.algorithm.template.iFilterTemplate;
-import java.awt.image.BufferedImage;
+import javax.swing.JPanel;
 
 /**
  *
- * @author mariuster
+ * @author Marius
  */
-public class Sharpen implements iFilter {
-
-    private final String id = "Sharpen";
-
-    public void apply(BufferedImage image) {
-        System.out.println("sharpen call");
-
+public class GrayscaleTemplate implements iFilterTemplate{
+    private final String id="GrayscaleTemplate";
+    @Override
+    public JPanel getPanel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public String getId() {
-        return this.id;
-    }
-
-    @Override
-    public void loadTemplate(iFilterTemplate template) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public iFilterTemplate getTemplate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    
 }

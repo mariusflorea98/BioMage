@@ -4,10 +4,14 @@ import biomage.model.Layer;
 import biomage.model.iLayer;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Graphics2D; 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat; 
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /*
@@ -128,6 +132,16 @@ public class ImageResultGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+
+        File outputfile = new File("./output/"+dateFormat.format(date).toString()+".png");
+        try {
+            ImageIO.write(layer.getImage(), "png", outputfile);
+            System.out.println("Saved image as "+dateFormat.format(date)+" in the /output directory" );
+        } catch (IOException ex) {
+            Logger.getLogger(ImageResultGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -169,7 +183,7 @@ public class ImageResultGUI extends javax.swing.JFrame {
 
                 BufferedImage img = null;
                 try {
-                    img = ImageIO.read(new File("1.jpg"));
+                    img = ImageIO.read(new File("images/1.jpg"));
                 } catch (IOException e) {
                 }
 

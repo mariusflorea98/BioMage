@@ -5,6 +5,8 @@
  */
 package biomage.algorithm;
 
+import biomage.algorithm.template.SobelTemplate;
+import biomage.algorithm.template.iFilterTemplate;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,15 +20,17 @@ public class Sobel implements iFilter {
 
     private final String id = "Sobel";
     private iKernel kernel;
-    private float[][] datele ;
+    private float[][] datele;
+    SobelTemplate template;
     
+    public void loadTemplate(iFilterTemplate sTemp) {
+    template=(SobelTemplate) sTemp;
+    kernel=template.getKernel();
+    datele=kernel.getKernel();
+    }
 
-    @Override
     public void apply(BufferedImage image) {
-        KernelFactory kf = new KernelFactory();
-        this.kernel=kf.Sobel();
-        datele=this.kernel.getKernel();
-        
+      
         try {
             Operator(image);
         } catch (IOException ex) {
@@ -39,7 +43,7 @@ public class Sobel implements iFilter {
     public String getId() {
         return this.id;
     }
-   
+
     private void Operator(BufferedImage image) throws IOException {
 
         int x = image.getWidth();
@@ -96,6 +100,10 @@ public class Sobel implements iFilter {
 
     }
 
+    public SobelTemplate getTemplate(){
+        return this.template;
+    }
+    
     private int getGrayScale(int rgb) {
         int r = (rgb >> 16) & 0xff;
         int g = (rgb >> 8) & 0xff;

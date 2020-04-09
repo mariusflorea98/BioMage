@@ -7,7 +7,9 @@ package biomage.view.gui;
 
 import biomage.algorithm.FilterProcessor;
 import biomage.algorithm.iFilter;
+import biomage.algorithm.template.iFilterTemplate;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 
 /**
  *
@@ -29,7 +32,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private String path = "./images";
     private JFileChooser chooser;
-    private List<iFilter> filterTemplates = new ArrayList<>();
+    private List<iFilterTemplate> filterTemps = new ArrayList<>();
     private FilterChooserGUI filterDialog = null;
     private DefaultListModel listModel = null;
     private FilterProcessor filterProc = null;
@@ -298,38 +301,55 @@ public class MainFrameGUI extends javax.swing.JFrame {
                 Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        ;
+
         jLabel1.setVisible(false);
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        /*
-         Remove null check for real time file to gui update
-         */
-        if (filterDialog == null) {
-            filterDialog = new FilterChooserGUI("Please select an item in the list: ");
-            listModel = new DefaultListModel();
-        }
-        filterDialog.setOnOk(e -> listModel.addElement(filterDialog.getSelectedItem()));
+        try {
+            /*
+             Remove null check for real time file to gui update
+             */
+            if (filterDialog == null) {
+                filterDialog = new FilterChooserGUI("Please select an item in the list: ");
+                listModel = new DefaultListModel();
+            }
+            filterDialog.setOnOk(e -> listModel.addElement(filterDialog.getSelectedItem()));
 
-        filterDialog.show();
-        jList1.setModel(listModel);
-        listChanged = true;
+            filterDialog.show();
+            jList1.setModel(listModel);
+
+            filterTemps.add(template((String) filterDialog.getSelectedItem()));
+
+            listChanged = true;
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private iFilterTemplate template(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        return (iFilterTemplate) Class.forName("biomage.algorithm.template." + className + "Template").newInstance();
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex != -1) {
             listModel.remove(selectedIndex);
+            filterTemps.remove(filterTemps.get(selectedIndex));
             listChanged = true;
+            
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void createFilters() {
 
-        filterProc = new FilterProcessor(listModel);
+        filterProc = new FilterProcessor(listModel, filterTemps);
         listChanged = false;
         try {
             filterProc.create();
@@ -344,8 +364,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        jLabel1.setVisible(true);
 
         long startTime = System.nanoTime();
 

@@ -59,7 +59,7 @@ public class KernelFactory {
         };
     }
 
-    public iKernel GausianBlur() {
+    public iKernel GaussianBlur() {
         return new iKernel() {
 
             @Override

@@ -5,6 +5,7 @@
  */
 package biomage.algorithm;
 
+import biomage.algorithm.template.iFilterTemplate;
 import biomage.view.gui.ImageResultGUI;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class FilterProcessor {
     private iFilter filter = null;
     private ImageResultGUI imgResult;
     private DefaultListModel listModel = null;
+    private List<iFilterTemplate> templates = new ArrayList<>();
 
     FilterProcessor() {
     }
@@ -36,10 +38,11 @@ public class FilterProcessor {
         }
     }
 
-    public FilterProcessor(DefaultListModel listModel) {
+    public FilterProcessor(DefaultListModel listModel, List<iFilterTemplate> temps) {
 
         this.listModel = listModel;
         this.filterObjects = this.listModel.toArray();
+        this.templates = temps;
 
     }
 
@@ -60,8 +63,13 @@ public class FilterProcessor {
 
     public void execute() {
         for (BufferedImage image : images) {
-            for (iFilter f : filters) {
-                f.apply(image);
+            for (int i = 0; i < filters.size(); i++) {
+                if (filters.get(i).getTemplate() == null
+                        || filters.get(i).getTemplate() != templates.get(i)) {
+
+                    filters.get(i).loadTemplate(templates.get(i));
+                }
+                filters.get(i).apply(image);
                 display(image);
             }
         }
