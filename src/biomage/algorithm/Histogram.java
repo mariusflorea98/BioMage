@@ -13,9 +13,11 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics; 
+import java.awt.Graphics;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -123,7 +125,6 @@ public class Histogram implements iFilter {
 
         }
 
-        
         grImg.setColor(blue);
         grImg.drawString("25", 25 * 5, 12);
         grImg.drawString("50", 50 * 5, 12);
@@ -162,7 +163,7 @@ public class Histogram implements iFilter {
 
     @Override
     public iFilterTemplate getTemplate() {
-       return this.template;
+        return this.template;
     }
 
 }
