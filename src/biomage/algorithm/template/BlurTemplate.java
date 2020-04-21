@@ -15,12 +15,13 @@ import javax.swing.JPanel;
  */
 public class BlurTemplate implements iFilterTemplate {
 
-    private final String id = "BlurTemplate";
+    private final String id = "Blur";
 
     @Override
     public JPanel getPanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     private iKernel kernel;
 
     public BlurTemplate() {

@@ -12,7 +12,6 @@ import java.util.List;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import javax.swing.DefaultListModel;
 import javax.swing.WindowConstants;
 
 /**
@@ -23,10 +22,9 @@ public class FilterProcessor {
 
     private BufferedImage[] images = null;
     private List<iFilter> filters = new ArrayList<>();
-    private Object[] filterObjects = null;
+
     private iFilter filter = null;
     private ImageResultGUI imgResult;
-    private DefaultListModel listModel = null;
     private List<iFilterTemplate> templates = new ArrayList<>();
 
     FilterProcessor() {
@@ -38,12 +36,8 @@ public class FilterProcessor {
         }
     }
 
-    public FilterProcessor(DefaultListModel listModel, List<iFilterTemplate> temps) {
-
-        this.listModel = listModel;
-        this.filterObjects = this.listModel.toArray();
+    public FilterProcessor(List<iFilterTemplate> temps) {
         this.templates = temps;
-
     }
 
     public void loadImages(BufferedImage[] img) {
@@ -64,21 +58,19 @@ public class FilterProcessor {
     public void execute() {
         for (BufferedImage image : images) {
             for (int i = 0; i < filters.size(); i++) {
+
                 if (filters.get(i).getTemplate() == null
                         || filters.get(i).getTemplate() != templates.get(i)) {
-
                     filters.get(i).loadTemplate(templates.get(i));
                 }
+
                 filters.get(i).apply(image);
                 display(image);
             }
         }
     }
 
-    public DefaultListModel getListModel() {
-        return this.listModel;
-    }
-
+  
     private void display(BufferedImage image) {
 
         imgResult = new ImageResultGUI();
@@ -88,9 +80,8 @@ public class FilterProcessor {
     }
 
     public void create() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-
-        for (Object o : filterObjects) {
-            filter = (iFilter) Class.forName("biomage.algorithm." + (String) o).newInstance();
+        for (iFilterTemplate t : templates) {
+            filter = (iFilter) Class.forName("biomage.algorithm." + t.getId()).newInstance();
             filters.add(filter);
         }
     }

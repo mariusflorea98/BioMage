@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  */
 public class SobelTemplate implements iFilterTemplate {
     
-    private final String id = "SobelTemplate";
+    private final String id = "Sobel";
     private iKernel kernel;
 
     public SobelTemplate() {

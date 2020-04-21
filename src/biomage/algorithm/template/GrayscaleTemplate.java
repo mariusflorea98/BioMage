@@ -11,8 +11,10 @@ import javax.swing.JPanel;
  *
  * @author Marius
  */
-public class GrayscaleTemplate implements iFilterTemplate{
-    private final String id="GrayscaleTemplate";
+public class GrayscaleTemplate implements iFilterTemplate {
+
+    private final String id = "Grayscale";
+
     @Override
     public JPanel getPanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -22,5 +24,5 @@ public class GrayscaleTemplate implements iFilterTemplate{
     public String getId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

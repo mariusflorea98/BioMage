@@ -6,10 +6,8 @@
 package biomage.view.gui;
 
 import biomage.algorithm.FilterProcessor;
-import biomage.algorithm.iFilter;
 import biomage.algorithm.template.iFilterTemplate;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -307,9 +305,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            /*
-             Remove null check for real time file to gui update
-             */
+
             if (filterDialog == null) {
                 filterDialog = new FilterChooserGUI("Please select an item in the list: ");
                 listModel = new DefaultListModel();
@@ -343,13 +339,13 @@ public class MainFrameGUI extends javax.swing.JFrame {
             listModel.remove(selectedIndex);
             filterTemps.remove(filterTemps.get(selectedIndex));
             listChanged = true;
-            
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void createFilters() {
+    private void loadFilters() {
 
-        filterProc = new FilterProcessor(listModel, filterTemps);
+        filterProc = new FilterProcessor(filterTemps);
         listChanged = false;
         try {
             filterProc.create();
@@ -368,7 +364,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
         long startTime = System.nanoTime();
 
         if (filterProc == null || listChanged == true) {
-            createFilters();
+            loadFilters();
         }
         if (images != filterProc.getImages()) {
             filterProc.loadImages(images);

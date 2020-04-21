@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  */
 public class HistogramTemplate implements iFilterTemplate {
 
-    private final String id = "HistogramTemplate";
+    private final String id = "Histogram";
 
     @Override
     public JPanel getPanel() {

@@ -183,7 +183,7 @@ public class ImageResultGUI extends javax.swing.JFrame {
 
                 BufferedImage img = null;
                 try {
-                    img = ImageIO.read(new File("images/1.jpg"));
+                    img = ImageIO.read(new File("images/stem.jpg"));
                 } catch (IOException e) {
                 }
 
