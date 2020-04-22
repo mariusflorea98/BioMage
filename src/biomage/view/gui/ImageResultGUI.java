@@ -4,11 +4,11 @@ import biomage.model.Layer;
 import biomage.model.iLayer;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D; 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat; 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +36,8 @@ public class ImageResultGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,10 +47,13 @@ public class ImageResultGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -135,10 +140,10 @@ public class ImageResultGUI extends javax.swing.JFrame {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
 
-        File outputfile = new File("./output/"+dateFormat.format(date).toString()+".png");
+        File outputfile = new File("./output/" + dateFormat.format(date).toString() + ".png");
         try {
             ImageIO.write(layer.getImage(), "png", outputfile);
-            System.out.println("Saved image as "+dateFormat.format(date)+" in the /output directory" );
+            System.out.println("Saved image as " + dateFormat.format(date) + " in the /output directory");
         } catch (IOException ex) {
             Logger.getLogger(ImageResultGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -217,6 +222,7 @@ public class ImageResultGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

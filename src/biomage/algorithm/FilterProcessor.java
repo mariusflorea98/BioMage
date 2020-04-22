@@ -22,7 +22,7 @@ public class FilterProcessor {
 
     private BufferedImage[] images = null;
     private List<iFilter> filters = new ArrayList<>();
-
+    private int x = 0, y = 0;
     private iFilter filter = null;
     private ImageResultGUI imgResult;
     private List<iFilterTemplate> templates = new ArrayList<>();
@@ -69,11 +69,22 @@ public class FilterProcessor {
             }
         }
     }
+    
+    private void move(){
+         if (x < 1000 && y < 700) {
+            x += 50;
+            y += 50;
+        }
+        else{
+            x=0;
+            y=0;
+        }
+    }
 
-  
     private void display(BufferedImage image) {
-
+        move();
         imgResult = new ImageResultGUI();
+        imgResult.setLocation(x, y);
         imgResult.display(image);
         imgResult.setVisible(true);
         imgResult.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
