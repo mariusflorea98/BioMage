@@ -8,6 +8,8 @@ package biomage.view.gui;
 import biomage.algorithm.FilterProcessor;
 import biomage.algorithm.template.iFilterTemplate;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 
 /**
  *
@@ -27,6 +30,7 @@ import javax.swing.JFileChooser;
  */
 public class MainFrameGUI extends javax.swing.JFrame {
 
+    private final GridBagLayout layout = new GridBagLayout();
     private final String path = "./images";
     private JFileChooser chooser;
     private List<iFilterTemplate> filterTemps = new ArrayList<>();
@@ -83,6 +87,11 @@ public class MainFrameGUI extends javax.swing.JFrame {
         jList1.setBackground(new java.awt.Color(211, 97, 115));
         jList1.setForeground(new java.awt.Color(255, 255, 255));
         jList1.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         jButton2.setBackground(new java.awt.Color(227, 79, 68));
@@ -254,7 +263,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -314,7 +323,15 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
         filterDialog.show();
 
-
+//        FloodGui fg=new FloodGui();
+//     jPanel2.setLayout(layout);
+//     GridBagConstraints c = new GridBagConstraints();
+//     c.gridx=0;
+//     c.gridy=0;
+//     jPanel2.add(fg,c);
+//     fg.setVisible(true);
+//      
+//     revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private iFilterTemplate template(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -381,6 +398,24 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         open();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        JList list = (JList) evt.getSource();
+        if (evt.getClickCount() == 2) {
+            int index = list.locationToIndex(evt.getPoint());
+
+           
+            jPanel2.setLayout(layout);
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = 0;
+            jPanel2.add(filterTemps.get(index).getPanel(), c);
+            filterTemps.get(index).getPanel().setVisible(true);
+            //check if other panels should be set to false later on
+            revalidate();
+
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
