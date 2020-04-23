@@ -22,13 +22,14 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
     /**
      * Creates new form BlurTemplate
      */
+   
     public BlurTemplate() {
         kf = new KernelFactory();
         initComponents();
-        
+
         //default kernel
-        jRadioButton2.setSelected(true); 
-        kernel=kf.GaussianBlur();
+        jRadioButton2.setSelected(true);
+        kernel = kf.GaussianBlur();
     }
 
     public JPanel getPanel() {
@@ -142,11 +143,15 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        kernel = kf.BoxBlur();
+
+        kernel = kf.Sobel();
+        this.validate();
+
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        kernel = kf.GaussianBlur();
+     
+        kernel = kf.GaussianBlur(); this.validate();
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
 
@@ -159,4 +164,5 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     // End of variables declaration//GEN-END:variables
+
 }

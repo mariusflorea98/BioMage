@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JList;
+import javax.swing.JList; 
 
 /**
  *
@@ -40,8 +40,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private boolean listChanged = false;
     private BufferedImage image;
     private BufferedImage[] images;
-    private File[] files;
-
+    private File[] files; 
+    
     public MainFrameGUI() {
 
         ComponentResizer cr = new ComponentResizer();
@@ -245,7 +245,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 807, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -322,16 +322,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
         });
 
         filterDialog.show();
-
-//        FloodGui fg=new FloodGui();
-//     jPanel2.setLayout(layout);
-//     GridBagConstraints c = new GridBagConstraints();
-//     c.gridx=0;
-//     c.gridy=0;
-//     jPanel2.add(fg,c);
-//     fg.setVisible(true);
-//      
-//     revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private iFilterTemplate template(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -374,7 +364,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
             if (images != filterProc.getImages()) {
                 filterProc.loadImages(images);
             }
-
+            
+            
             filterProc.execute();
 
             long endTime = System.nanoTime();
@@ -401,14 +392,16 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         JList list = (JList) evt.getSource();
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {  
             int index = list.locationToIndex(evt.getPoint());
+            
             jPanel2.setLayout(layout);
             GridBagConstraints c = new GridBagConstraints();
             c.gridx = 0;
-            c.gridy = 0;
+            c.gridy = 0; 
             jPanel2.add(filterTemps.get(index).getPanel(), c);
             filterTemps.get(index).getPanel().setVisible(true);
+           
             //check if other panels should be set to false later on
             revalidate();
 

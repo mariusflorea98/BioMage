@@ -13,9 +13,9 @@ import javax.swing.JPanel;
  * @author Marius
  */
 public interface iFilterTemplate {
-    
+   
     public JPanel getPanel();
  
     public String getId();
-     
+ 
 }

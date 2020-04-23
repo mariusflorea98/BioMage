@@ -30,7 +30,7 @@ public class Blur implements iFilter {
         } catch (IOException ex) {
             Logger.getLogger(Sobel.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+ 
     }
 
     private void Operator(BufferedImage image) throws IOException {
