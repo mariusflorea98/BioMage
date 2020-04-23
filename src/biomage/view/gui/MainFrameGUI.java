@@ -403,8 +403,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
         JList list = (JList) evt.getSource();
         if (evt.getClickCount() == 2) {
             int index = list.locationToIndex(evt.getPoint());
-
-           
             jPanel2.setLayout(layout);
             GridBagConstraints c = new GridBagConstraints();
             c.gridx = 0;

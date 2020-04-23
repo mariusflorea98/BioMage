@@ -25,6 +25,10 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
     public BlurTemplate() {
         kf = new KernelFactory();
         initComponents();
+        
+        //default kernel
+        jRadioButton2.setSelected(true); 
+        kernel=kf.GaussianBlur();
     }
 
     public JPanel getPanel() {
