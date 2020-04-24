@@ -358,9 +358,9 @@ public class MainFrameGUI extends javax.swing.JFrame {
         if (listModel != null) {
             long startTime = System.nanoTime();
 
-            if (filterProc == null || listChanged == true) {
+           // if (filterProc == null || listChanged == true) {
                 loadFilters();
-            }
+           // }
             if (images != filterProc.getImages()) {
                 filterProc.loadImages(images);
             }
@@ -394,14 +394,15 @@ public class MainFrameGUI extends javax.swing.JFrame {
         JList list = (JList) evt.getSource();
         if (evt.getClickCount() == 2) {  
             int index = list.locationToIndex(evt.getPoint());
-            
+            jPanel2.removeAll();
             jPanel2.setLayout(layout);
+            repaint();
             GridBagConstraints c = new GridBagConstraints();
             c.gridx = 0;
             c.gridy = 0; 
             jPanel2.add(filterTemps.get(index).getPanel(), c);
             filterTemps.get(index).getPanel().setVisible(true);
-           
+            
             //check if other panels should be set to false later on
             revalidate();
 

@@ -9,7 +9,6 @@ import biomage.model.FloodPreviewOptions;
 import biomage.model.flood.FloodFillOptionsObj;
 import biomage.model.flood.ImageOptionsObj;
 import biomage.view.comp.slider.RangeSlider;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,7 +23,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
     private FloodFillOptionsObj floodOptions;
     private ImageOptionsObj imgOptions;
     private int toleranta = 0, fA = 0;
-    private int vecini = 0;
+    private int vecini = 8;
 
     /**
      * Creates new form FloodFillTemplate
@@ -106,7 +105,11 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
 
         jToggleButton1.setText("Pixel Deletion");
 
+        jButton1.setBackground(new java.awt.Color(227, 79, 68));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Set");
+        jButton1.setBorder(null);
+        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -118,13 +121,10 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(111, 111, 111)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(328, 328, 328)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(93, 93, 93)
@@ -160,12 +160,12 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -199,8 +199,8 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButton1)
-                    .addComponent(jButton1))
-                .addGap(0, 45, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -210,7 +210,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,13 +250,14 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                 jLabel7.setText(String.valueOf(slider.getUpperValue()));
             }
         });
-        
+
         jLabel8.setText(String.valueOf(0));
         jLabel9.setText(String.valueOf(0));
         jLabel6.setText(String.valueOf(rangeSlider1.getUpperValue()));
         jLabel7.setText(String.valueOf(rangeSlider2.getUpperValue()));
         jTextField1.setText(prevOpt.threshold);
         jTextField2.setText(prevOpt.fA);
+        jRadioButton2.setSelected(true);
     }
 
 
@@ -265,24 +266,16 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        if (vecini != 0) {
-
-            floodOptions = FloodOptions();
-            imgOptions = ImageOptions();
-         
-        } else {
-            JOptionPane.showMessageDialog(this, "Selectati numarul de vecini");
-        }
+        floodOptions = FloodOptions();
+        imgOptions = ImageOptions();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        jRadioButton2.setSelected(false);
         vecini = 4;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        jRadioButton1.setSelected(false);
+
         vecini = 8;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
