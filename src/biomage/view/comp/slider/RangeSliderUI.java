@@ -25,7 +25,7 @@ class RangeSliderUI extends BasicSliderUI {
 
     /** Color of selected range. */
      //private Color rangeColor =Color.blue ;
-     private Color rangeColor = new Color(00, 160, 180);
+     private Color rangeColor = new Color(227,79,68);
      
     /** Location and size of thumb for upper value. */
     private Rectangle upperThumbRect;

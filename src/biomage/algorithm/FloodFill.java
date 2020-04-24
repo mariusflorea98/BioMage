@@ -1,5 +1,8 @@
 package biomage.algorithm;
 
+import biomage.algorithm.template.BlurTemplate;
+import biomage.algorithm.template.FloodFillTemplate;
+import biomage.algorithm.template.iFilterTemplate;
 import biomage.model.Layer;
 import biomage.model.Punct;
 import biomage.model.flood.FloodData;
@@ -22,12 +25,18 @@ import java.util.Vector;
  *
  * @author Marius
  */
-public class FloodFill {
+public class FloodFill implements iFilter {
 
-    static int maxSelected = 0;
+    private final String id = "FloodFill";
+    private int maxSelected = 0;
+    private FloodData fd;
+    private int newC = 0x80FF0000;
     private final Color colorCH = new Color(0, 150, 0, 200);
     private final Color distanceCH = new Color(0, 0, 150, 200);
     private final Color yellow = new Color(255, 255, 0, 160);
+    FloodFillTemplate template;
+    FloodFillOptionsObj floodOpt;
+    ImageOptionsObj imgOpt;
 
     public FloodData ReadImagePixels(BufferedImage img) {
 
@@ -176,12 +185,12 @@ public class FloodFill {
 //        }
 //        System.out.println(nrHull);
 //    }
-    public void floodFill(BufferedImage imgStart, FloodData fd, Punct pozitie,
-            final int rgbOriginal, int newC, FloodFillOptionsObj floodOpt, ImageOptionsObj imgOpt) {
+    public void floodFill(BufferedImage imgStart, Punct pozitie,
+            final int rgbOriginal, FloodFillOptionsObj floodOpt, ImageOptionsObj imgOpt) {
 
         final Queue<Punct> queFill = new LinkedList<>();
         final List<Punct> listaPuncte = new ArrayList<>();
-       // final List<Punct> convexHull;
+        // final List<Punct> convexHull;
 
         float luminanceSum = 0;
         Punct pix;
@@ -317,10 +326,11 @@ public class FloodFill {
     }
 
     public void FloodFillImage(BufferedImage imgStart, FloodFillOptionsObj floodOpt,
-            ImageOptionsObj imgOpt, //ConvexHullOptionsObj convOpt, 
-            int newC) {
+            ImageOptionsObj imgOpt
+    //ConvexHullOptionsObj convOpt, 
+    ) {
 
-        FloodData floodData = ReadImagePixels(imgStart);
+        fd = ReadImagePixels(imgStart);
         BufferedImage copy = new BufferedImage(imgStart.getWidth(), imgStart.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         for (int i = 0; i < imgStart.getWidth(); i++) {
@@ -336,17 +346,19 @@ public class FloodFill {
         for (int y = 0; y < imgStart.getHeight(); y++) {
             for (int x = 0; x < imgStart.getWidth(); x++) {
                 {
-                    if (floodData.pixel_visited[y][x] == false) {
+                    if (fd.pixel_visited[y][x] == false) {
 
                         pozitie.setX(x);
                         pozitie.setY(y);
                         final int prevC = imgStart.getRGB(pozitie.getX(), pozitie.getY());
-                        floodFill(imgStart, floodData, pozitie, prevC, newC, floodOpt, imgOpt);
+                        floodFill(copy, pozitie, prevC, floodOpt, imgOpt);
 
                     }
                 }
             }
         }
+
+       
 
         //analiza(floodData, imgStart);
 //        floodData.convOptions = convOpt;
@@ -354,6 +366,31 @@ public class FloodFill {
 //            drawHull(floodData.hulls, floodData);
 //        }
         // return floodData;
+    }
+
+    @Override
+    public void apply(BufferedImage image) {
+
+    FloodFillImage(image, floodOpt, imgOpt);
+    BufferedImage img = fd.floodLayer.getImage();
+    image.getGraphics().drawImage(img, 0, 0, null);
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public void loadTemplate(iFilterTemplate bTemp) {
+        template = (FloodFillTemplate) bTemp;
+        floodOpt = template.getFloodOpt();
+        imgOpt = template.getImageOpt();
+    }
+
+    @Override
+    public iFilterTemplate getTemplate() {
+        return this.template;
     }
 
 }
