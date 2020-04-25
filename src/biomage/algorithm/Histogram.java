@@ -16,8 +16,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -27,29 +25,29 @@ import javax.swing.JPanel;
  */
 public class Histogram implements iFilter {
 
-    private final String id = "CrudeHistogram";
+    private String hType;
+    private final String id = "Histogram";
     private BufferedImage histo, image;
     private int[] lumFreq;
-    private int[] lumSelFreq;
-    private int max, maxInd;
+    private int[] redFreq, greenFreq, blueFreq;
+    private int max, maxIndex;
     private int panelWidth, panelHeight;
     private Color maxRGB;
     private HistogramTemplate template;
-
     private final Color red = new Color(150, 0, 0, 200);
-    private final Color blue = new Color(0, 0, 150, 200);
-    private final Color green = new Color(0, 150, 0, 200);
+    private final Color blue = new Color(0, 0, 150, 100);
+    private final Color green = new Color(0, 150, 0, 150);
 
     Histogram() {
     }
 
+    @Override
     public void apply(BufferedImage img) {
 
         ColorModel cm = img.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
         WritableRaster raster = img.copyData(null);
         this.image = new BufferedImage(cm, raster, isAlphaPremultiplied, null);
-
         setSize();
         readPixels();
         createHistogram();
@@ -57,8 +55,13 @@ public class Histogram implements iFilter {
     }
 
     private void setSize() {
-        panelWidth = 503;
-        panelHeight = 500;
+        if (hType.equals("GRAYSCALE")) {
+            panelWidth = 503;
+            panelHeight = 500;
+        } else {
+            panelWidth = 300;
+            panelHeight = 450;
+        }
 
     }
 
@@ -66,8 +69,11 @@ public class Histogram implements iFilter {
 
         max = 0;
         float luminance;
+
         lumFreq = new int[101];
-        lumSelFreq = new int[101];
+        redFreq = new int[256];
+        greenFreq = new int[256];
+        blueFreq = new int[256];
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
 
@@ -78,26 +84,33 @@ public class Histogram implements iFilter {
                 luminance = ((iRBase * 0.2126f
                         + iGBase * 0.7152f
                         + iBBase * 0.0722f) / 255);
-
+                int lum = (int) (luminance * 100);
                 if (image.getRGB(x, y) != 0) {
-                    int lumSel = (int) (luminance * 100);
-                    lumSelFreq[lumSel]++;
 
-                    if (max < lumSelFreq[lumSel]) {
-                        max = lumSelFreq[lumSel];
-                        maxInd = lumSel;
-                        maxRGB = new Color(iRBase, iGBase, iBBase);
+                    switch (hType) {
+
+                        case "GRAYSCALE":
+                            lumFreq[lum]++;
+                            if (max < lumFreq[lum]) {
+                                max = lumFreq[lum];
+                                maxIndex = lum;
+                                maxRGB = new Color(iRBase, iGBase, iBBase);
+                            }
+                            break;
+
+                        case "COLOR":
+
+                            Color c = new Color(image.getRGB(x, y));
+                            redFreq[c.getRed()]++;
+                            greenFreq[c.getBlue()]++;
+                            blueFreq[c.getGreen()]++;
+
+                            break;
                     }
-                } else {
-                    int lum = (int) (luminance * 100);
-                    lumFreq[lum]++;
-                    //remove the else when you will implement the comparison mode
-                    //right now it is used to avoid checking for non flood filled images
                 }
 
             }
         }
-
     }
 
     private void createHistogram() {
@@ -111,33 +124,55 @@ public class Histogram implements iFilter {
         grImg.setFont((new Font("TimesRoman", Font.PLAIN, 18)));
         Panel panel = new Panel(this.histo);
 
-        for (int i = 1; i < 101; i++) {
+        switch (hType) {
+            case "GRAYSCALE":
 
-            if (lumSelFreq[i] != 0) {
+                for (int i = 0; i < 101; i++) {
+
+                    if (lumFreq[i] > 0) {
+                        grImg.setColor(green);
+                        grImg.drawLine(i, (this.histo.getHeight() - lumFreq[i] / 100), i, this.histo.getHeight());
+                        grImg.setColor(red);
+                    }
+
+                }
+
+                grImg.setColor(blue);
+                grImg.drawString("25", 25 * 5, 12);
+                grImg.drawString("50", 50 * 5, 12);
+                grImg.drawString("75", 75 * 5, 12);
                 grImg.setColor(green);
-                grImg.drawLine(i * 5, (this.histo.getHeight() - lumSelFreq[i] / 100), i * 5, this.histo.getHeight());
+                grImg.drawString("Selected", 15, 35);
+                grImg.drawString("Most freq. color: ", 15, 55);
+                grImg.drawString("Position: " + maxIndex, 15, 75);
+                grImg.drawString("Frequency: " + max, 15, 95);
                 grImg.setColor(red);
+                grImg.drawString("Everything", 15, 15);
+                grImg.setColor(maxRGB);
+                grImg.fill3DRect(145, 40, 20, 20, true);
 
-            } else if (lumFreq[i] != 0) {
-                grImg.drawLine(i * 5, (this.histo.getHeight() - lumFreq[i] / 100), i * 5, this.histo.getHeight());
+                break;
 
-            }
+            case "COLOR":
+                for (int i = 0; i < 256; i++) {
+                    if (redFreq[i] > 0) {
+                        grImg.setColor(red);
+                        grImg.drawLine(i, (this.histo.getHeight() - redFreq[i] / 100), i, this.histo.getHeight());
 
+                    }
+
+                    if (greenFreq[i] > 0) {
+                        grImg.setColor(green);
+                        grImg.drawLine(i, (this.histo.getHeight() - greenFreq[i] / 100), i, this.histo.getHeight());
+                    }
+                    if (blueFreq[i] > 0) {
+                        grImg.setColor(blue);
+                        grImg.drawLine(i, (this.histo.getHeight() - blueFreq[i] / 100), i, this.histo.getHeight());
+                    }
+
+                }
+                break;
         }
-
-        grImg.setColor(blue);
-        grImg.drawString("25", 25 * 5, 12);
-        grImg.drawString("50", 50 * 5, 12);
-        grImg.drawString("75", 75 * 5, 12);
-        grImg.setColor(green);
-        grImg.drawString("Selected", 15, 35);
-        grImg.drawString("Most freq. color: ", 15, 55);
-        grImg.drawString("Position: " + maxInd, 15, 75);
-        grImg.drawString("Frequency: " + max, 15, 95);
-        grImg.setColor(red);
-        grImg.drawString("Everything", 15, 15);
-        grImg.setColor(maxRGB);
-        grImg.fill3DRect(145, 40, 20, 20, true);
 
         frame.setContentPane(panel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -150,6 +185,10 @@ public class Histogram implements iFilter {
         return this.histo;
     }
 
+    public int[] getDistribution() {
+        return this.lumFreq;
+    }
+
     @Override
     public String getId() {
         return this.id;
@@ -159,6 +198,7 @@ public class Histogram implements iFilter {
     @Override
     public void loadTemplate(iFilterTemplate hTemp) {
         this.template = (HistogramTemplate) hTemp;
+        hType = this.template.hType;
     }
 
     @Override

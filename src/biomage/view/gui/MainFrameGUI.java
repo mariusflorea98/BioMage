@@ -37,7 +37,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private FilterChooserGUI filterDialog = null;
     private DefaultListModel listModel = null;
     private FilterProcessor filterProc = null;
-    private boolean listChanged = false;
     private BufferedImage image;
     private BufferedImage[] images;
     private File[] files; 
@@ -308,7 +307,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
             try {
                 listModel.addElement(filterDialog.getSelectedItem());
                 jList1.setModel(listModel);
-                listChanged = true;
 
                 filterTemps.add(template((String) filterDialog.getSelectedItem()));
             } catch (ClassNotFoundException ex) {
@@ -333,7 +331,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
         if (selectedIndex != -1) {
             listModel.remove(selectedIndex);
             filterTemps.remove(filterTemps.get(selectedIndex));
-            listChanged = true;
 
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -341,7 +338,6 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private void loadFilters() {
 
         filterProc = new FilterProcessor(filterTemps);
-        listChanged = false;
         try {
             filterProc.create();
         } catch (ClassNotFoundException ex) {
@@ -357,10 +353,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if (listModel != null) {
             long startTime = System.nanoTime();
-
-           // if (filterProc == null || listChanged == true) {
-                loadFilters();
-           // }
+            loadFilters();
+  
             if (images != filterProc.getImages()) {
                 filterProc.loadImages(images);
             }
