@@ -9,27 +9,16 @@ package biomage.algorithm;
  *
  * @author Marius
  */
-public class KernelFactory {
+public class Kernel {
 
     public iKernel Sobel() {
         return new iKernel() {
-
             @Override
             public float[][] getKernel() {
                 return new float[][]{
                     {-1f, 0, 1f},
                     {-2f, 0, 2f},
                     {-1f, 0, 1f}};
-            }
-
-            @Override
-            public int getRows() {
-                return 3;
-            }
-
-            @Override
-            public int getCols() {
-                return 3;
             }
 
         };
@@ -46,16 +35,6 @@ public class KernelFactory {
                     {1f / 9, 1f / 9, 1f / 9}};
             }
 
-            @Override
-            public int getRows() {
-                return 3;
-            }
-
-            @Override
-            public int getCols() {
-                return 3;
-            }
-
         };
     }
 
@@ -68,16 +47,6 @@ public class KernelFactory {
                     {1f / 16, 2f / 16, 1f / 16},
                     {2f / 16, 4f / 16, 2f / 16},
                     {1f / 16, 2f / 16, 1f / 16}};
-            }
-
-            @Override
-            public int getRows() {
-                return 3;
-            }
-
-            @Override
-            public int getCols() {
-                return 3;
             }
 
         };
@@ -93,16 +62,20 @@ public class KernelFactory {
                     {0, -1, 0}};
             }
 
-            @Override
-            public int getRows() {
-                return 3;
-            }
+        };
+    }
 
-            @Override
-            public int getCols() {
-                return 3;
+    public iKernel Emboss() {
+        return new iKernel() {
+
+            public float[][] getKernel() {
+                return new float[][]{
+                    {-2, -1, 0},
+                    {-1, 1, -1},
+                    {0, 1, 2}};
             }
 
         };
     }
+
 }

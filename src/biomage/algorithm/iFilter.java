@@ -19,6 +19,7 @@ public interface iFilter {
     public String getId();
     
     public void loadTemplate(iFilterTemplate template);
+    
     public iFilterTemplate getTemplate();
     
 }

@@ -17,5 +17,5 @@ public interface iFilterTemplate {
     public JPanel getPanel();
  
     public String getId();
-    
+     
 }

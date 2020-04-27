@@ -1,7 +1,8 @@
-Grayscale
 Blur
-
-Sobel
-
+Emboss
 FloodFill
+Grayscale
 Histogram
+Invert
+Sharpen
+Sobel

@@ -367,6 +367,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
             double elapsedTimeInSecond = (double) duration / 1_000_000_000;
             System.out.println("Time: " + elapsedTimeInSecond);
         }
+        
+      
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

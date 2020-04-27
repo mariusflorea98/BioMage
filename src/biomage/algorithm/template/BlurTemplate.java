@@ -5,7 +5,7 @@
  */
 package biomage.algorithm.template;
 
-import biomage.algorithm.KernelFactory;
+import biomage.algorithm.Kernel;
 import biomage.algorithm.iKernel;
 import javax.swing.JPanel;
 
@@ -17,23 +17,28 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
 
     private final String id = "Blur";
     public iKernel kernel;
-    public KernelFactory kf;
+
+    String direction = "HORIZONTAL";
 
     /**
      * Creates new form BlurTemplate
      */
-   
+
     public BlurTemplate() {
-        kf = new KernelFactory();
+
         initComponents();
 
         //default kernel
         jRadioButton2.setSelected(true);
-        kernel = kf.GaussianBlur();
+        kernel = new Kernel().GaussianBlur();
     }
 
     public JPanel getPanel() {
         return this.jPanel1;
+    }
+
+    public String getDirection() {
+        return this.direction;
     }
 
     public String getId() {
@@ -144,16 +149,16 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
 
-        kernel = kf.BoxBlur();
+        kernel = new Kernel().BoxBlur();
         this.validate();
 
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-     
-        kernel = kf.GaussianBlur(); this.validate();
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
+        kernel =new Kernel().GaussianBlur();
+        this.validate();
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

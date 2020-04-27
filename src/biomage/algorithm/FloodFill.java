@@ -297,30 +297,7 @@ public class FloodFill implements iFilter {
                 fd.pixels_aboveInterval++;
             }
 
-            if (floodOpt.getDeleteOp() == true) {
-
-                for (int j = 0; j < nr_pixels; j++) {
-
-                    pix = listaPuncte.get(j);
-
-                    if (imgOpt.getAverageLumMax() < 1) {
-
-                        if (fd.luminance[pix.getY()][pix.getX()]
-                                <= imgOpt.getAverageLumMax()) {
-                            fd.pixel_visited[pix.getY()][pix.getX()] = false;
-                            //fd.pixels_belowInterval--;
-                        }
-                    } else if (imgOpt.getAverageLumMin() > 0) {
-                        if (fd.luminance[pix.getY()][pix.getX()]
-                                >= imgOpt.getAverageLumMin()) {
-                            fd.pixel_visited[pix.getY()][pix.getX()] = false;
-                            // fd.pixels_aboveInterval--;
-                        }
-
-                    }
-                }
-
-            }
+            
         }
 
     }

@@ -59,25 +59,19 @@ public class FilterProcessor {
         for (BufferedImage image : images) {
             for (int i = 0; i < filters.size(); i++) {
 
-                if (filters.get(i).getTemplate() == null
-                        || filters.get(i).getTemplate() != templates.get(i)) {
-                    filters.get(i).loadTemplate(templates.get(i));
-                }
-
                 filters.get(i).apply(image);
                 display(image);
             }
         }
     }
-    
-    private void move(){
-         if (x < 1000 && y < 700) {
+
+    private void move() {
+        if (x < 1000 && y < 700) {
             x += 50;
             y += 50;
-        }
-        else{
-            x=0;
-            y=0;
+        } else {
+            x = 0;
+            y = 0;
         }
     }
 
@@ -91,8 +85,9 @@ public class FilterProcessor {
     }
 
     public void create() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        for (iFilterTemplate t : templates) {
-            filter = (iFilter) Class.forName("biomage.algorithm." + t.getId()).newInstance();
+        for (iFilterTemplate template : templates) {
+            filter = (iFilter) Class.forName("biomage.algorithm." + template.getId()).newInstance();
+            filter.loadTemplate(template);
             filters.add(filter);
         }
     }

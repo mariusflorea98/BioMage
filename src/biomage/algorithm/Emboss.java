@@ -5,7 +5,7 @@
  */
 package biomage.algorithm;
 
-import biomage.algorithm.template.SharpenTemplate;
+import biomage.algorithm.template.EmbossTemplate;
 import biomage.algorithm.template.iFilterTemplate;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,27 +14,26 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author mariuster
+ * @author Marius
  */
-public class Sharpen extends Convolution implements iFilter {
+public class Emboss extends Convolution implements iFilter {
 
-    private final String id = "Sharpen";
+    private final String id = "Emboss";
+    EmbossTemplate template;
 
-    SharpenTemplate template;
-
+    @Override
     public void apply(BufferedImage image) {
-        
         try {
             convolve(image);
         } catch (IOException ex) {
-            Logger.getLogger(Sharpen.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Emboss.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-   public void loadTemplate(iFilterTemplate bTemp) {
-        template = (SharpenTemplate) bTemp;
+    public void loadTemplate(iFilterTemplate bTemp) {
+        template = (EmbossTemplate) bTemp;
         kernel = template.getKernel();
-        direction=template.getDirection();
+        direction = template.getDirection();
 
     }
 
@@ -45,6 +44,4 @@ public class Sharpen extends Convolution implements iFilter {
     public iFilterTemplate getTemplate() {
         return this.template;
     }
-
-
 }

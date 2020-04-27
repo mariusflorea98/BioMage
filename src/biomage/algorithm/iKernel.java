@@ -12,8 +12,5 @@ package biomage.algorithm;
 public interface iKernel {
 
     public float[][] getKernel();
-
-    public int getRows();
-
-    public int getCols();
+    
 }

@@ -3,9 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/view/gui/MainFrameGUI.java</file>
-            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/FilterProcessor.java</file>
-            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/Histogram.java</file>
+            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/Blur.java</file>
+            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/template/SobelTemplate.java</file>
+            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/Sobel.java</file>
+            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/template/BlurTemplate.java</file>
+            <file>file:/C:/Users/Marius/Desktop/BioMage/src/biomage/algorithm/Convolution.java</file>
         </group>
     </open-files>
 </project-private>

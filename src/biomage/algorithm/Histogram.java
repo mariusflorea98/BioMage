@@ -34,9 +34,9 @@ public class Histogram implements iFilter {
     private int panelWidth, panelHeight;
     private Color maxRGB;
     private HistogramTemplate template;
-    private final Color red = new Color(150, 0, 0, 200);
-    private final Color blue = new Color(0, 0, 150, 100);
+    private final Color red = new Color(250, 0, 0, 200);
     private final Color green = new Color(0, 150, 0, 150);
+    private final Color blue = new Color(0, 0, 250, 100);
 
     Histogram() {
     }
@@ -131,7 +131,7 @@ public class Histogram implements iFilter {
 
                     if (lumFreq[i] > 0) {
                         grImg.setColor(green);
-                        grImg.drawLine(i, (this.histo.getHeight() - lumFreq[i] / 100), i, this.histo.getHeight());
+                        grImg.drawLine(i*5, (this.histo.getHeight() - lumFreq[i] / 100), i*5, this.histo.getHeight());
                         grImg.setColor(red);
                     }
 

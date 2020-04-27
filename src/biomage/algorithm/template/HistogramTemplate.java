@@ -122,7 +122,7 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
        
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
-
+ 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
