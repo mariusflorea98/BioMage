@@ -17,15 +17,15 @@ public class EmbossTemplate extends javax.swing.JFrame implements iFilterTemplat
 
     private final String id = "Emboss";
     public iKernel kernel;
-    public Kernel kf;
+
     String direction = "GRADIENT";
 
     /**
      * Creates new form Emboss
      */
     public EmbossTemplate() {
-        kf = new Kernel();
-        kernel = kf.Emboss();
+
+        kernel = new Kernel().Emboss();
         initComponents();
     }
 

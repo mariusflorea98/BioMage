@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biomage.algorithm;
+package biomage.algorithm.filter;
 
-import biomage.algorithm.template.EmbossTemplate;
+import biomage.algorithm.Convolution;
+import biomage.algorithm.iFilter;
+import biomage.algorithm.template.BlurTemplate;
 import biomage.algorithm.template.iFilterTemplate;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -14,26 +16,28 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Marius
+ * @author mariuster
  */
-public class Emboss extends Convolution implements iFilter {
+public class Blur extends Convolution implements iFilter {
 
-    private final String id = "Emboss";
-    EmbossTemplate template;
+    private final String id = "Blur";
+    BlurTemplate template;
+   
 
-    @Override
     public void apply(BufferedImage image) {
+
         try {
             convolve(image);
         } catch (IOException ex) {
-            Logger.getLogger(Emboss.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Blur.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public void loadTemplate(iFilterTemplate bTemp) {
-        template = (EmbossTemplate) bTemp;
+        template = (BlurTemplate) bTemp;
         kernel = template.getKernel();
-        direction = template.getDirection();
+        direction=template.getDirection();
 
     }
 
@@ -44,4 +48,5 @@ public class Emboss extends Convolution implements iFilter {
     public iFilterTemplate getTemplate() {
         return this.template;
     }
+
 }

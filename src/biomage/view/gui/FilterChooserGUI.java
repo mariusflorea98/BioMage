@@ -5,11 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.FileUtils;
 
 public class FilterChooserGUI {
 
@@ -21,12 +18,13 @@ public class FilterChooserGUI {
     private JDialog dialog;
     DefaultListModel listModel;
     List<String> contents;
-    File file = new File("filters.txt");
+    //File file = new File("filters.txt");
+    final File folder = new File("./src/biomage/algorithm/filter/");
 
     public FilterChooserGUI(String message, JList listToDisplay) {
 
         list = listToDisplay;
-        label = new JLabel(message);    
+        label = new JLabel(message);
         createAndDisplayOptionPane();
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -36,22 +34,24 @@ public class FilterChooserGUI {
         dialog.setTitle(title);
     }
 
-    public FilterChooserGUI(String message) {
-        try {
-            contents = FileUtils.readLines(file, "UTF-8");
-            listModel = new DefaultListModel();
+    public void getFiles() {
+        contents = new ArrayList<String>();
+        for (final File fileEntry : folder.listFiles()) {
+            contents.add(fileEntry.getName().toString().split("\\.", 2)[0]);
 
-            for (String line : contents) {
-                listModel.addElement(line);
-            }
-
-            list = new JList(listModel);
-            label = new JLabel(message);
-            createAndDisplayOptionPane();
-
-        } catch (IOException ex) {
-            Logger.getLogger(FilterChooserGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public FilterChooserGUI(String message) {
+        getFiles();
+        //contents = FileUtils.readLines(file, "UTF-8");
+        listModel = new DefaultListModel();
+        for (String line : contents) {
+            listModel.addElement(line);
+        }
+        list = new JList(listModel);
+        label = new JLabel(message);
+        createAndDisplayOptionPane();
 
     }
 
@@ -100,8 +100,8 @@ public class FilterChooserGUI {
         }
         hide();
     }
-    
-    public void close(){
+
+    public void close() {
         dialog.dispose();
     }
 
@@ -109,7 +109,7 @@ public class FilterChooserGUI {
         if (cancelEvent != null) {
             cancelEvent.actionPerformed(e);
         }
-        
+
         hide();
     }
 

@@ -1,5 +1,6 @@
-package biomage.algorithm;
+package biomage.algorithm.filter;
 
+import biomage.algorithm.iFilter;
 import biomage.algorithm.template.BlurTemplate;
 import biomage.algorithm.template.FloodFillTemplate;
 import biomage.algorithm.template.iFilterTemplate;

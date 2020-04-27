@@ -1,10 +1,11 @@
-package biomage.algorithm;
+package biomage.algorithm.filter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import biomage.algorithm.iFilter;
 import biomage.algorithm.template.HistogramTemplate;
 import biomage.algorithm.template.iFilterTemplate;
 import java.awt.BasicStroke;
@@ -38,7 +39,7 @@ public class Histogram implements iFilter {
     private final Color green = new Color(0, 150, 0, 150);
     private final Color blue = new Color(0, 0, 250, 100);
 
-    Histogram() {
+    public Histogram() {
     }
 
     @Override

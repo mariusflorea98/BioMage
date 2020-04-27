@@ -17,10 +17,10 @@ public class Convolution {
     protected iKernel kernel;
     private float[][] matrix;
     double scale = 1;
-    String direction;
+    protected String direction;
     int gx, gy;
 
-    Convolution() {
+    protected Convolution() {
 
     }
 

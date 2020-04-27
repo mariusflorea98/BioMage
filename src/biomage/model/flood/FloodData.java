@@ -6,7 +6,7 @@
 package biomage.model.flood;
 
  
-import biomage.algorithm.Histogram;
+import biomage.algorithm.filter.Histogram;
 import biomage.model.iLayer;
 import java.util.Vector;
 

@@ -86,7 +86,7 @@ public class FilterProcessor {
 
     public void create() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         for (iFilterTemplate template : templates) {
-            filter = (iFilter) Class.forName("biomage.algorithm." + template.getId()).newInstance();
+            filter = (iFilter) Class.forName("biomage.algorithm.filter." + template.getId()).newInstance();
             filter.loadTemplate(template);
             filters.add(filter);
         }

@@ -5,6 +5,7 @@
  */
 package biomage.algorithm.template;
 
+import biomage.algorithm.iKernel;
 import javax.swing.JPanel;
 
 /**
@@ -14,7 +15,7 @@ import javax.swing.JPanel;
 public class GrayscaleTemplate implements iFilterTemplate {
 
     private final String id = "Grayscale";
-
+    public iKernel kernel;
     @Override
     public JPanel getPanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
