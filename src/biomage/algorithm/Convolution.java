@@ -62,9 +62,8 @@ public class Convolution {
                                 + ((matrix[0][1] * val10) + (matrix[1][1] * val11) + (matrix[2][1] * val12))
                                 + ((matrix[0][0] * val20) + (matrix[1][0] * val21) + (matrix[2][0] * val22)));
 
-                        double gval = Math.sqrt((gx * gx) + (gy * gy));
-                        int g = (int) gval;
-
+                        int g = (int)Math.sqrt((gx * gx) + (gy * gy));
+                       
                         if (maxGradient < g) {
                             maxGradient = g;
                         }

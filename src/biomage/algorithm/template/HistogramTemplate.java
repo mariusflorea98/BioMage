@@ -11,13 +11,12 @@ import javax.swing.JPanel;
  *
  * @author Marius
  */
-public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemplate{
-     
-   public String hType;
-    
+public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemplate {
+
+    public String hType;
+    public boolean show = true;
     private final String id = "Histogram";
 
-    
     public JPanel getPanel() {
         return this.jPanel1;
     }
@@ -25,17 +24,25 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
     public String getId() {
         return this.id;
     }
-    
-    
+
     /**
      * Creates new form HistogramTemplate
      */
     public HistogramTemplate() {
         initComponents();
-        
+
         //default
         jRadioButton1.setSelected(true);
-        hType="COLOR";
+        hType = "COLOR";
+    }
+
+    public void setType(String type) {
+
+        this.hType = type;
+    }
+    
+    public void setShow(boolean show){
+        this.show=show;
     }
 
     /**
@@ -52,11 +59,19 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
         jLabel1 = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+
+        setForeground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setText("Histogram type:");
 
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Color (RGB)");
+        jRadioButton1.setBorder(null);
+        jRadioButton1.setContentAreaFilled(false);
         jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton1ActionPerformed(evt);
@@ -65,9 +80,22 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("GrayScale");
+        jRadioButton2.setBorder(null);
+        jRadioButton2.setContentAreaFilled(false);
         jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRadioButton2ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton1.setBackground(new java.awt.Color(194, 54, 80));
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton1.setSelected(true);
+        jToggleButton1.setText("Hide Histogram");
+        jToggleButton1.setBorder(null);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
             }
         });
 
@@ -78,10 +106,12 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jLabel1))
-                .addContainerGap(376, Short.MAX_VALUE))
+                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jRadioButton2)
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(341, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -92,7 +122,9 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
                 .addComponent(jRadioButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton2)
-                .addContainerGap(219, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(127, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -102,32 +134,41 @@ public class HistogramTemplate extends javax.swing.JPanel implements iFilterTemp
             .addGroup(layout.createSequentialGroup()
                 .addGap(84, 84, 84)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-         this.hType= "GRAYSCALE";
+        this.hType = "GRAYSCALE";
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-       this.hType= "COLOR";
-       
+        this.hType = "COLOR";
+
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
- 
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        if (this.show == true) {
+            this.show = false;
+        } else {
+            this.show = true;
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
 }

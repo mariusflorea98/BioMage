@@ -18,7 +18,6 @@ public class FilterChooserGUI {
     private JDialog dialog;
     DefaultListModel listModel;
     List<String> contents;
-    //File file = new File("filters.txt");
     final File folder = new File("./src/biomage/algorithm/filter/");
 
     public FilterChooserGUI(String message, JList listToDisplay) {
@@ -44,7 +43,6 @@ public class FilterChooserGUI {
 
     public FilterChooserGUI(String message) {
         getFiles();
-        //contents = FileUtils.readLines(file, "UTF-8");
         listModel = new DefaultListModel();
         for (String line : contents) {
             listModel.addElement(line);
@@ -125,14 +123,4 @@ public class FilterChooserGUI {
         return list.getSelectedValue();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-
-                FilterChooserGUI dialog = new FilterChooserGUI("Please select an item in the list: ");
-                dialog.setOnOk(e -> System.out.println("You chose: " + dialog.getSelectedItem()));
-                dialog.show();
-            }
-        });
-    }
 }
