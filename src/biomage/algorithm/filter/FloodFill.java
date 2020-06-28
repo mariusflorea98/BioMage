@@ -145,26 +145,26 @@ public class FloodFill implements iFilter {
         System.out.println(nrHull);
     }
 
-    void analiza(FloodData floodData, BufferedImage imgStart) {
+    void analiza(BufferedImage imgStart) {
         int imgArea = imgStart.getHeight() * imgStart.getWidth();
-        int rejected_area = imgArea - floodData.iTotalArea;
+        int rejected_area = imgArea - fd.iTotalArea;
         float rej_avgLum = 0;
         for (int y = 0; y < imgStart.getHeight(); y++) {
             for (int x = 0; x < imgStart.getWidth(); x++) {
                 if (imgStart.getRGB(x, y) == 0);
-                rej_avgLum += floodData.luminance[y][x];
+                rej_avgLum += fd.luminance[y][x];
             }
         }
 
-        floodData.avgRegionsLum /= floodData.regions;
-        floodData.rejected_avgRegionsLum = rej_avgLum / rejected_area;
+        fd.avgRegionsLum /= fd.regions;
+        fd.rejected_avgRegionsLum = rej_avgLum / rejected_area;
 
-        System.out.println("avgRegionLum: " + floodData.avgRegionsLum);
-        System.out.println("rejected avgRegionLum: " + floodData.rejected_avgRegionsLum);
-        System.out.println("regions: " + floodData.regions);
-        System.out.println("pixeli<lum_min: " + floodData.pixels_belowInterval);
-        System.out.println("pixeli intre: " + floodData.pixels_inInterval);
-        System.out.println("pixeli>lum_max: " + floodData.pixels_aboveInterval);
+        System.out.println("avgRegionLum: " + fd.avgRegionsLum);
+        System.out.println("rejected avgRegionLum: " + fd.rejected_avgRegionsLum);
+        System.out.println("regions: " + fd.regions);
+        System.out.println("pixeli<lum_min: " + fd.pixels_belowInterval);
+        System.out.println("pixeli intre: " + fd.pixels_inInterval);
+        System.out.println("pixeli>lum_max: " + fd.pixels_aboveInterval);
 
     }
 
@@ -340,10 +340,12 @@ public class FloodFill implements iFilter {
                 }
             }
         }
- 
+        analiza(imgStart);
         if (fd.hulls != null) {
             drawHull();
         }
+        
+      
         
         System.out.println(fd.regions);
        

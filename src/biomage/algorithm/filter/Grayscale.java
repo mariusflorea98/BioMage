@@ -15,8 +15,7 @@ import java.awt.image.BufferedImage;
  * @author Marius
  */
 public class Grayscale implements iFilter {
-
-    private final String id = "Grayscale";
+      private final String id = "Grayscale";
     GrayscaleTemplate template;
 
     Grayscale() {
@@ -60,5 +59,4 @@ public class Grayscale implements iFilter {
     public iFilterTemplate getTemplate() {
         return this.template;
     }
-
 }

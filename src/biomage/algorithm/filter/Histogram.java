@@ -30,8 +30,7 @@ public class Histogram implements iFilter {
     private final String id = "Histogram";
     private BufferedImage histo, image;
     private int[] lumFreq;
-    private int[] redFreq, greenFreq, blueFreq;
-    private int[] normRedFreq, normGreenFreq, normBlueFreq;
+    private int[] redFreq, greenFreq, blueFreq; 
     private int[] eqHist;
     private int[][] luminanceV;
     private int max, maxIndex;
@@ -81,7 +80,7 @@ public class Histogram implements iFilter {
         greenFreq = new int[256];
         blueFreq = new int[256];
         eqHist = new int[256];
-        normRedFreq = normGreenFreq = normBlueFreq = new int[101];
+        
         luminanceV = new int[image.getHeight()][image.getWidth()];
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
@@ -120,9 +119,7 @@ public class Histogram implements iFilter {
                             greenFreq[c.getGreen()]++;
                             blueFreq[c.getBlue()]++;
 
-                            normRedFreq[(int) ((c.getRed() / 255.0f) * 100)]++;
-                            normGreenFreq[(int) ((c.getGreen() / 255.0f) * 100)]++;
-                            normBlueFreq[(int) ((c.getBlue() / 255.0f) * 100)]++;
+                            
 
                             break;
                     }
