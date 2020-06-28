@@ -1,11 +1,13 @@
 package biomage.algorithm.filter;
 
+import biomage.algorithm.GrahamScan;
 import biomage.algorithm.iFilter;
-import biomage.algorithm.template.BlurTemplate;
 import biomage.algorithm.template.FloodFillTemplate;
 import biomage.algorithm.template.iFilterTemplate;
 import biomage.model.Layer;
 import biomage.model.Punct;
+import biomage.model.flood.ConvexHullObj;
+import biomage.model.flood.ConvexHullOptionsObj;
 import biomage.model.flood.FloodData;
 import biomage.model.flood.FloodFillOptionsObj;
 import biomage.model.flood.ImageOptionsObj;
@@ -16,6 +18,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import static java.lang.Math.sqrt;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,13 +34,14 @@ public class FloodFill implements iFilter {
     private final String id = "FloodFill";
     private int maxSelected = 0;
     private FloodData fd;
-    private int newC = 0x80FF0000;
+    private int newC = 0x99FF0000;
     private final Color colorCH = new Color(0, 150, 0, 200);
     private final Color distanceCH = new Color(0, 0, 150, 200);
     private final Color yellow = new Color(255, 255, 0, 160);
     FloodFillTemplate template;
     FloodFillOptionsObj floodOpt;
     ImageOptionsObj imgOpt;
+    ConvexHullOptionsObj convOpt;
 
     public FloodData ReadImagePixels(BufferedImage img) {
 
@@ -89,6 +93,58 @@ public class FloodFill implements iFilter {
                 / 2.0;
     }
 
+    void drawHull() {
+        int nrHull = 0;
+        final Graphics2D grImg = (Graphics2D) fd.hullLayer.getImage().getGraphics();
+
+        grImg.setPaintMode();
+        grImg.setStroke(new BasicStroke(2));
+        Polygon poly;
+        Vector<ConvexHullObj> ch = fd.hulls;
+
+        int perimeter;
+        double roundness;
+        for (ConvexHullObj ch1 : ch) {
+            perimeter = 0;
+            if (ch1.area > fd.convOptions.areaLower
+                    && ch1.area < fd.convOptions.areaUpper
+                    && ((float) ch1.selected_pixels) / (ch1.area) < fd.convOptions.selectedUpper
+                    && ((float) ch1.selected_pixels) / ch1.area >= fd.convOptions.selectedLower) {
+
+                nrHull++;
+                grImg.setColor(colorCH);
+                poly = new Polygon();
+                Punct pix = ch1.points.get(0);
+                int xloc = pix.getX(), yloc = pix.getY();
+                for (int j = 1; j < ch1.points.size(); j++) {   //replace with draw poly
+                    pix = ch1.points.get(j);
+                    poly.addPoint(pix.getX(), pix.getY());
+                    grImg.drawLine(xloc, yloc, pix.getX(), pix.getY());
+                    perimeter += sqrt((pix.getX() - xloc) ^ 2 + (pix.getY() - yloc) ^ 2);
+
+                    xloc = pix.getX();
+                    yloc = pix.getY();
+
+                }
+                if (perimeter > 5) {
+                    roundness = ((4 * Math.PI * ch1.area) / (perimeter ^ 2));
+                    //System.out.println("roundness: " + roundness);
+                }
+                // Rectangle2D poz = poly.getBounds2D();              //bounding box
+
+                grImg.setColor(yellow);
+                grImg.fillPolygon(poly);
+                grImg.setColor(colorCH);
+                grImg.drawLine(xloc, yloc, ch1.points.get(0).getX(), ch1.points.get(0).getY());
+                Punct p = pointsDistance(ch1.points);
+                grImg.setColor(distanceCH);
+                grImg.drawLine(p.varf1.getX(), p.varf1.getY(),
+                        p.varf2.getX(), p.varf2.getY());
+            }
+        }
+        System.out.println(nrHull);
+    }
+
     void analiza(FloodData floodData, BufferedImage imgStart) {
         int imgArea = imgStart.getHeight() * imgStart.getWidth();
         int rejected_area = imgArea - floodData.iTotalArea;
@@ -136,63 +192,14 @@ public class FloodFill implements iFilter {
         return p;
     }
 
-//    void drawHull(Vector<ConvexHullObj> ch, FloodData fd) {
-//        int nrHull = 0;
-//        final Graphics2D grImg = (Graphics2D) fd.hullLayer.layerImage.getGraphics();
-//
-//        grImg.setPaintMode();
-//        grImg.setStroke(new BasicStroke(2));
-//        Polygon poly;
-//
-//        int perimeter;
-//        double roundness;
-//        for (ConvexHullObj ch1 : ch) {
-//            perimeter = 0;
-//            if (ch1.area > fd.convOptions.areaLower
-//                    && ch1.area < fd.convOptions.areaUpper
-//                    && ((float) ch1.selected_pixels) / (ch1.area) < fd.convOptions.selectedUpper
-//                    && ((float) ch1.selected_pixels) / ch1.area >= fd.convOptions.selectedLower) {
-//
-//                nrHull++;
-//                grImg.setColor(colorCH);
-//                poly = new Polygon();
-//                Punct pix = ch1.points.get(0);
-//                int xloc = pix.getX(), yloc = pix.getY();
-//                for (int j = 1; j < ch1.points.size(); j++) {   //replace with draw poly
-//                    pix = ch1.points.get(j);
-//                    poly.addPoint(pix.getX(), pix.getY());
-//                    grImg.drawLine(xloc, yloc, pix.getX(), pix.getY());
-//                    perimeter += sqrt((pix.getX() - xloc) ^ 2 + (pix.getY() - yloc) ^ 2);
-//
-//                    xloc = pix.getX();
-//                    yloc = pix.getY();
-//
-//                }
-//                if (perimeter > 5) {
-//                    roundness = ((4 * Math.PI * ch1.area) / (perimeter ^ 2));
-//                    //System.out.println("roundness: " + roundness);
-//                }
-//                // Rectangle2D poz = poly.getBounds2D();              //bounding box
-//
-//                grImg.setColor(yellow);
-//                grImg.fillPolygon(poly);
-//                grImg.setColor(colorCH);
-//                grImg.drawLine(xloc, yloc, ch1.points.get(0).getX(), ch1.points.get(0).getY());
-//                Punct p = pointsDistance(ch1.points);
-//                grImg.setColor(distanceCH);
-//                grImg.drawLine(p.varf1.getX(), p.varf1.getY(),
-//                        p.varf2.getX(), p.varf2.getY());
-//            }
-//        }
-//        System.out.println(nrHull);
-//    }
     public void floodFill(BufferedImage imgStart, Punct pozitie,
             final int rgbOriginal, FloodFillOptionsObj floodOpt, ImageOptionsObj imgOpt) {
 
         final Queue<Punct> queFill = new LinkedList<>();
         final List<Punct> listaPuncte = new ArrayList<>();
-        // final List<Punct> convexHull;
-
+        final List<Punct> convexHull;
+        final float fA = floodOpt.getFAFactor() / 100.0f;
+        final float fN = 1.01f - fA;
         float luminanceSum = 0;
         Punct pix;
 
@@ -237,8 +244,6 @@ public class FloodFill implements iFilter {
 
             luminanceSum += fd.luminance[y][x];
 
-            final float fA = floodOpt.getFAFactor() / 100.0f;
-            final float fN = 1.01f - fA;
             final int r = (int) (fA * iR + fN * iRBase);
             final int g = (int) (fA * iG + fN * iGBase);
             final int b = (int) (fA * iB + fN * iBBase);
@@ -275,20 +280,22 @@ public class FloodFill implements iFilter {
             for (int j = 0; j < nr_pixels; j++) {
                 pix = listaPuncte.get(j);
                 fd.floodLayer.getImage().setRGB(pix.getX(), pix.getY(), newC);
+                 
 
             }
 
-//            if (floodOpt.getConvHullOp() == true) {
-//                if (nr_pixels > 3 && GrahamScan.Coliniaritate(listaPuncte) == 0) {
-//                    convexHull = GrahamScan.ConvexHull(listaPuncte);
-//                    double area = shoelaceArea(convexHull);
-//
-//                    ConvexHullObj ch = new ConvexHullObj(convexHull, area, nr_pixels);
-//
-//                    fd.hulls.add(ch);
-//
-//                }
-//            }
+            if (floodOpt.getConvHullOp() == true) {
+                if (nr_pixels > 3 && GrahamScan.Coliniaritate(listaPuncte) == 0) {
+                    convexHull = GrahamScan.ConvexHull(listaPuncte);
+                    double area = shoelaceArea(convexHull);
+
+                    ConvexHullObj ch = new ConvexHullObj(convexHull, area, nr_pixels);
+                    
+                    fd.hulls.add(ch);
+
+                }
+            }
+
         } else {
             fd.rejected_avgRegionsLum += avgLuminance;
 
@@ -299,13 +306,13 @@ public class FloodFill implements iFilter {
             }
 
             
+            
         }
 
     }
 
     public void FloodFillImage(BufferedImage imgStart, FloodFillOptionsObj floodOpt,
-            ImageOptionsObj imgOpt
-    //ConvexHullOptionsObj convOpt, 
+            ImageOptionsObj imgOpt, ConvexHullOptionsObj convOpt
     ) {
 
         fd = ReadImagePixels(imgStart);
@@ -318,9 +325,7 @@ public class FloodFill implements iFilter {
         }
 
         Punct pozitie = new Punct();
-//        if (convOpt != null) {
-//            System.out.println(convOpt);
-//        }
+ 
         for (int y = 0; y < imgStart.getHeight(); y++) {
             for (int x = 0; x < imgStart.getWidth(); x++) {
                 {
@@ -335,23 +340,24 @@ public class FloodFill implements iFilter {
                 }
             }
         }
-
+ 
+        if (fd.hulls != null) {
+            drawHull();
+        }
+        
+        System.out.println(fd.regions);
        
-
-        //analiza(floodData, imgStart);
-//        floodData.convOptions = convOpt;
-//        if (floodData.hulls.size() != 0) {
-//            drawHull(floodData.hulls, floodData);
-//        }
-        // return floodData;
     }
 
     @Override
     public void apply(BufferedImage image) {
 
-    FloodFillImage(image, floodOpt, imgOpt);
-    BufferedImage img = fd.floodLayer.getImage();
-    image.getGraphics().drawImage(img, 0, 0, null);
+        FloodFillImage(image, floodOpt, imgOpt, convOpt);
+        BufferedImage img = fd.floodLayer.getImage();
+        BufferedImage hullImg = fd.hullLayer.getImage();
+        image.getGraphics().drawImage(img, 0, 0, null);
+        //image.getGraphics().drawImage(hullImg,0,0,null);
+
     }
 
     @Override
@@ -364,6 +370,7 @@ public class FloodFill implements iFilter {
         template = (FloodFillTemplate) bTemp;
         floodOpt = template.getFloodOpt();
         imgOpt = template.getImageOpt();
+        convOpt = template.getConvolutionOpt();
     }
 
     @Override

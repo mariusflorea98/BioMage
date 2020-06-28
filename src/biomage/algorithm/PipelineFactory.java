@@ -48,7 +48,7 @@ public class PipelineFactory {
                 break;
 
             case "RGB_Adipocytes":
-                filterTemps.add(new HistogramTemplate());
+              
                 filterTemps.add(new BlurTemplate());
                 filterTemps.add(new FloodFillTemplate());
                 break;

@@ -76,18 +76,27 @@ public class WassersteinDistance {
         for (int j = 0; j < images.length; j++) {
             hist2.apply(images[j]);
 
-            double totalDistance = 0;
+            double distance = 0;
 
             int h2[] = hist2.getEqualizedHist();
 
+            double prev = 0;
             for (int i = 0; i < h1.length; i++) {
-                final double currentDistance = h1[i] - h2[i];
-
-                totalDistance += Math.abs(currentDistance);
+//                final double current = (h1[i] + prev) - h2[i];
+//                distance += Math.abs(current);
+//                prev = current;   //wasserstein
+                
+//                    final double current = h1[i]-h2[i];
+//                    distance += Math.abs(current); //simple diff
+                
+                 final double current = h1[i]-h2[i];
+                 distance+=Math.abs(current);
 
             }
-
-            similarityIndex[j] = (int) totalDistance;
+            
+            
+            System.out.println((int) distance);
+            similarityIndex[j] = (int) distance;
 
             if (minValue >= similarityIndex[j]) {
                 minValue = similarityIndex[j];
@@ -95,7 +104,7 @@ public class WassersteinDistance {
             }
 
         }
-
+        System.out.println(pipeNames[selectedIndex].split("\\.", 2)[0]);
         return pipeNames[selectedIndex].split("\\.", 2)[0];
 
     }

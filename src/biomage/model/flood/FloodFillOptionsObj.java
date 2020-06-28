@@ -10,7 +10,7 @@ public class FloodFillOptionsObj {
     final private int fAFactor;
     final private int nrVecini;
     private boolean pixelDelete;
-    //private boolean convHullOp;
+    private boolean convHullOp;
 
     public FloodFillOptionsObj(final int iToleranta, final int fAFactor, final int nrVecini, boolean pixelDelete,
             boolean convHullOp) {
@@ -19,7 +19,7 @@ public class FloodFillOptionsObj {
         this.fAFactor = fAFactor;
         this.nrVecini = nrVecini;
         this.pixelDelete = pixelDelete;
-        //this.convHullOp = convHullOp;
+        this.convHullOp = convHullOp;
     }
 
     public boolean getDeleteOp() {
@@ -30,12 +30,12 @@ public class FloodFillOptionsObj {
         this.pixelDelete = opt;
     }
 
-//    public boolean getConvHullOp() {
-//        return this.convHullOp;
-//    }
-//    public void setConvHullOp(boolean opt) {
-//        this.convHullOp = opt;
-//    }
+    public boolean getConvHullOp() {
+        return this.convHullOp;
+    }
+    public void setConvHullOp(boolean opt) {
+        this.convHullOp = opt;
+    }
     public int getToleranta() {
         return iToleranta;
     }

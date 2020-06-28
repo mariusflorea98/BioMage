@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Marius
  */
-public class SobelTemplate extends javax.swing.JPanel implements iFilterTemplate {
+public class SobelTemplate extends javax.swing.JPanel implements iFilterTemplate, iConvolutionTemp {
 
     private final String id = "Sobel";
     public iKernel kernel;

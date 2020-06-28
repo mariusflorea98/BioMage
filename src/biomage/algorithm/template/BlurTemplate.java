@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Marius
  */
-public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate {
+public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate, iConvolutionTemp {
 
     private final String id = "Blur";
     public iKernel kernel;
@@ -113,7 +113,7 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jRadioButton1)
                             .addComponent(jLabel3))))
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(187, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +137,7 @@ public class BlurTemplate extends javax.swing.JPanel implements iFilterTemplate 
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 105, Short.MAX_VALUE))
+                .addGap(0, 101, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -59,7 +59,7 @@ public class FilterChooserGUI {
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
-        dialog = optionPane.createDialog("Select option");
+        dialog = optionPane.createDialog("Select filter");
 
     }
 

@@ -8,7 +8,7 @@ package biomage.model.flood;
 import biomage.algorithm.filter.Histogram;
 import biomage.model.iLayer;
 import java.util.Vector;
-
+ 
 /**
  *
  * @author Marius
@@ -29,8 +29,8 @@ public class FloodData {
     public iLayer hullLayer;
     public boolean[][] pixel_visited;
     public float[][] luminance;
-    //public Vector<ConvexHullObj> hulls; 
-    // public ConvexHullOptionsObj convOptions;
+    public Vector<ConvexHullObj> hulls; 
+    public ConvexHullOptionsObj convOptions;
 
     public FloodData(int iTotalArea, iLayer floodLayer, iLayer hullLayer, boolean[][] pixel_visited, float[][] luminance) {
 

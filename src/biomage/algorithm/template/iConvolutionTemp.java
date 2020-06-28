@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biomage.algorithm.filter;
+package biomage.algorithm.template;
+
+import biomage.algorithm.iKernel;
 
 /**
  *
  * @author Marius
  */
-public class ConvexHull {
+public interface iConvolutionTemp {
+ 
+    public iKernel getKernel();
     
 }

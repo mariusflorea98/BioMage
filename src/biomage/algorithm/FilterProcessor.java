@@ -23,7 +23,6 @@ public class FilterProcessor {
     private BufferedImage[] images = null;
     private List<iFilter> filters = new ArrayList<>();
     private int x = 0, y = 0;
-    private iFilter filter = null;
     private ImageResultGUI imgResult;
     private List<iFilterTemplate> templates = new ArrayList<>();
 
@@ -56,11 +55,11 @@ public class FilterProcessor {
     }
 
     public void execute() {
+
         for (BufferedImage image : images) {
             for (int i = 0; i < filters.size(); i++) {
-
                 filters.get(i).apply(image);
-                display(image);
+                display(image, filters.get(i).getId());
             }
         }
     }
@@ -75,9 +74,9 @@ public class FilterProcessor {
         }
     }
 
-    private void display(BufferedImage image) {
+    private void display(BufferedImage image, String id) {
         move();
-        imgResult = new ImageResultGUI();
+        imgResult = new ImageResultGUI(id);
         imgResult.setLocation(x, y);
         imgResult.display(image);
         imgResult.setVisible(true);
@@ -85,11 +84,13 @@ public class FilterProcessor {
     }
 
     public void create() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+
         for (iFilterTemplate template : templates) {
-            filter = (iFilter) Class.forName("biomage.algorithm.filter." + template.getId()).newInstance();
+            iFilter filter = (iFilter) Class.forName("biomage.algorithm.filter." + template.getId()).newInstance();
             filter.loadTemplate(template);
             filters.add(filter);
         }
+
     }
 
 }

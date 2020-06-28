@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Marius
  */
-public class EmbossTemplate extends javax.swing.JFrame implements iFilterTemplate {
+public class EmbossTemplate extends javax.swing.JFrame implements iFilterTemplate, iConvolutionTemp {
 
     private final String id = "Emboss";
     public iKernel kernel;
@@ -41,7 +41,7 @@ public class EmbossTemplate extends javax.swing.JFrame implements iFilterTemplat
         return this.id;
     }
 
-    public iKernel getKernel() {
+     public iKernel getKernel() {
         return this.kernel;
     }
 

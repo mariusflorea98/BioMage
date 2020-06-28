@@ -26,23 +26,21 @@ public class Grayscale implements iFilter {
     public void apply(BufferedImage image) {
         int x = image.getWidth();
         int y = image.getHeight();
-        int p;
+        int pixel;
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                p = image.getRGB(i, j);
+                pixel = image.getRGB(i, j);
 
-                int a = (p >> 24) & 0xff;
-                int r = (p >> 16) & 0xff;
-                int g = (p >> 8) & 0xff;
-                int b = p & 0xff;
+                int a = (pixel >> 24) & 0xff;
+                int r = (pixel >> 16) & 0xff;
+                int g = (pixel >> 8) & 0xff;
+                int b = pixel & 0xff;
 
-                //calculate average
-                int avg = (r + g + b) / 3;
+                int average = (r + g + b) / 3;
 
-                //replace RGB value with avg
-                p = (a << 24) | (avg << 16) | (avg << 8) | avg;
+                pixel = (a << 24) | (average << 16) | (average << 8) | average;
 
-                image.setRGB(i, j, p);
+                image.setRGB(i, j, pixel);
             }
 
         }

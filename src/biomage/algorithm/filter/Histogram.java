@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author User
+ * @author Marius
  */
 public class Histogram implements iFilter {
 
@@ -131,7 +131,7 @@ public class Histogram implements iFilter {
             }
         }
 
-        if (hType == "GRAYSCALE") {
+        if (hType.equals("GRAYSCALE")) {
 
             eqHist[0] = lumFreq[0];
             for (int i = 1; i < 256; i++) {
@@ -176,7 +176,7 @@ public class Histogram implements iFilter {
 
         grImg.setPaintMode();
         grImg.setStroke(new BasicStroke(5));
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Histogram");
         grImg.setFont((new Font("TimesRoman", Font.PLAIN, 18)));
         Panel panel = new Panel(this.histo);
 
@@ -196,96 +196,7 @@ public class Histogram implements iFilter {
                     Mt += i * p[i];
                 }
 
-//                int optimalTreshold1 = 0;
-//                int optimalTreshold2 = 0;
-//                int optimalTreshold3 = 0;
-//
-//                double maxBetweenVar = 0;
-//
-//                double w0 = 0;
-//                double m0 = 0;
-//                double c0 = 0;
-//                double p0 = 0;
-//
-//                double w1 = 0;
-//                double m1 = 0;
-//                double c1 = 0;
-//                double p1 = 0;
-//
-//                double w2 = 0;
-//                double m2 = 0;
-//                double c2 = 0;
-//                double p2 = 0;
-//                for (int tr1 = 0; tr1 < 256; tr1++) {
-//                    p0 += p[tr1];
-//                    w0 += (tr1 * p[tr1]);
-//                    if (p0 != 0) {
-//                        m0 = w0 / p0;
-//                    }
-//                    c0 = p0 * (m0 - Mt) * (m0 - Mt);
-//
-//                    c1 = 0;
-//                    w1 = 0;
-//                    m1 = 0;
-//                    p1 = 0;
-//
-//                    for (int tr2 = tr1 + 1; tr2 < 256; tr2++) {
-//
-//                        p1 += p[tr2];
-//                        w1 += (tr2 * p[tr2]);
-//                        if (p1 != 0) {
-//                            m1 = w1 / p1;
-//                        }
-//
-//                        c1 = p1 * (m1 - Mt) * (m1 - Mt);
-//
-//                        c2 = 0;
-//                        w2 = 0;
-//                        m2 = 0;
-//                        p2 = 0;
-//                        for (int tr3 = tr2 + 1; tr3 < 256; tr3++) {
-//
-//                            p2 += p[tr3];
-//                            w2 += (tr3 * p[tr3]);
-//                            if (p2 != 0) {
-//                                m2 = w2 / p2;
-//                            }
-//
-//                            c2 = p2 * (m2 - Mt) * (m2 - Mt);
-//
-//                            double p3 = 1 - (p0 + p1 + p2);
-//                            double w3 = Mt - (w0 + w1 + w2);
-//                            double m3 = w3 / p3;
-//                            double c3 = p3 * (m3 - Mt) * (m3 - Mt);
-//
-//                            double c = c0 + c1 + c2 + c3;
-//
-//                            if (maxBetweenVar < c) {
-//                                maxBetweenVar = c;
-//                                optimalTreshold1 = tr1;
-//                                optimalTreshold2 = tr2;
-//                                optimalTreshold3 = tr3;
-//                            }
-//                        }
-//                    }
-//
-//                }
-//                System.out.println("Threshold 1 = " + optimalTreshold1 + " Threshold 2 = " + optimalTreshold2 + " Threshold 3 = " + optimalTreshold3);
-//
-//                for (int i = 0; i < image.getWidth(); i++) {
-//                    for (int j = 0; j < image.getHeight(); j++) {
-//                        if (luminanceV[j][i] < optimalTreshold1) {
-//                            image.setRGB(i, j, 0xFFE0E0E0);
-//                        } else if (luminanceV[j][i] > optimalTreshold1 && luminanceV[j][i] < optimalTreshold2) {
-//                            image.setRGB(i, j, 0xFF808080);
-//                        } else if (luminanceV[j][i] > optimalTreshold2 && luminanceV[j][i] < optimalTreshold3) {
-//                            image.setRGB(i, j, 0xFF606060);
-//                        } else {
-//                            image.setRGB(i, j, 0xFF202020);
-//                        }
-//                    }
-//
-//                }
+
                 grImg.setColor(blue);
                 grImg.drawString("25", 25 * 5, 12);
                 grImg.drawString("50", 50 * 5, 12);

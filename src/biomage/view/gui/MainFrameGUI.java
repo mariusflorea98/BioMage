@@ -16,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
-import java.io.IOException;
+import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -25,6 +25,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +36,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private final GridBagLayout layout = new GridBagLayout();
     private final String path = "./images";
     private JFileChooser chooser;
-    private List<iFilterTemplate> filterTemps = new ArrayList<>();
+    private List<iFilterTemplate> filterTemps = new ArrayList<>();;
     private FilterChooserGUI filterDialog = null;
     private DefaultListModel listModel = null;
     private FilterProcessor filterProc = null;
@@ -72,6 +73,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -139,7 +142,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -206,6 +209,32 @@ public class MainFrameGUI extends javax.swing.JFrame {
         jToolBar2.setForeground(new java.awt.Color(137, 21, 78));
         jToolBar2.setRollover(true);
 
+        jPanel5.setBackground(new java.awt.Color(137, 21, 78));
+
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("BioMage");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(232, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(202, 202, 202))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(0, 0, 0))
+        );
+
+        jToolBar2.add(jPanel5);
+
         jPanel3.setBackground(new java.awt.Color(137, 21, 78));
         jPanel3.setForeground(new java.awt.Color(137, 21, 78));
 
@@ -237,11 +266,10 @@ public class MainFrameGUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,11 +290,12 @@ public class MainFrameGUI extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 743, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,11 +319,8 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
         chooser = new JFileChooser(path);
         chooser.setPreferredSize(new Dimension(800, 600));
-
         chooser.setMultiSelectionEnabled(true);
-
         chooser.showOpenDialog(null);
-
         files = chooser.getSelectedFiles();
 
         images = new BufferedImage[files.length];
@@ -314,6 +340,10 @@ public class MainFrameGUI extends javax.swing.JFrame {
             }
         }
 
+        if (files.length != 0) {
+            JOptionPane.showMessageDialog(this, "Images have been loaded");
+        }
+
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -321,6 +351,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
         if (filterDialog == null) {
             filterDialog = new FilterChooserGUI("Please select an item in the list: ");
             listModel = new DefaultListModel();
+            
         }
         filterDialog.setOnOk(e -> {
             try {
@@ -386,6 +417,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
             System.out.println("Time: " + elapsedTimeInSecond);
         }
 
+      
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -402,6 +434,7 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         open();
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -423,19 +456,22 @@ public class MainFrameGUI extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         try {
-            WassersteinDistance wd = new WassersteinDistance(images[0], 100);
 
-            PipelineFactory pipeFactory = new PipelineFactory(wd.getTemplateType());
-            this.filterTemps = pipeFactory.getPipeline();
-            listModel = new DefaultListModel();
-            for (iFilterTemplate ft : filterTemps) {
-                listModel.addElement(ft.getId());
+            if (images != null) {
+                WassersteinDistance wd = new WassersteinDistance(images[0], 700);
+                PipelineFactory pipeFactory = new PipelineFactory(wd.getTemplateType());
+                this.filterTemps = pipeFactory.getPipeline();
+                listModel = new DefaultListModel();
+                for (iFilterTemplate ft : filterTemps) {
+                    listModel.addElement(ft.getId());
+                }
+                jList1.setModel(listModel);
+                jPanel2.removeAll();
+                jPanel2.setLayout(layout);
+                repaint();
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select an image first");
             }
-            jList1.setModel(listModel);
-            jPanel2.removeAll();
-            jPanel2.setLayout(layout);
-            repaint();
-
         } catch (IOException ex) {
             Logger.getLogger(MainFrameGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -485,11 +521,13 @@ public class MainFrameGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar2;
     // End of variables declaration//GEN-END:variables
