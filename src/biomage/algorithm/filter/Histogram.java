@@ -74,13 +74,11 @@ public class Histogram implements iFilter {
     private void readPixels() {
 
         max = 0;
-
         lumFreq = new int[256];
         redFreq = new int[256];
         greenFreq = new int[256];
         blueFreq = new int[256];
         eqHist = new int[256];
-        
         luminanceV = new int[image.getHeight()][image.getWidth()];
         for (int y = 0; y < image.getHeight(); y++) {
             for (int x = 0; x < image.getWidth(); x++) {
@@ -118,9 +116,7 @@ public class Histogram implements iFilter {
                             redFreq[c.getRed()]++;
                             greenFreq[c.getGreen()]++;
                             blueFreq[c.getBlue()]++;
-
-                            
-
+                         
                             break;
                     }
                 }

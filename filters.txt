@@ -1,8 +1,0 @@
-Blur
-Emboss
-FloodFill
-Grayscale
-Histogram
-Invert
-Sharpen
-Sobel

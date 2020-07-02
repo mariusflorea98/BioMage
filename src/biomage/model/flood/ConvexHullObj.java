@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class ConvexHullObj {
 
-  public  List<Punct> points;
-  public  double area;
-  public  int selected_pixels;
+    public List<Punct> points;
+    public double area;
+    public int selected_pixels;
+    public float roundness;
 
-  
     public ConvexHullObj() {
     }
 
@@ -29,9 +29,9 @@ public class ConvexHullObj {
 
     }
 
- public String toString(){
- 
- return " Puncte: "+this.points+" Arie: "+this.area+" Pixels: "+this.selected_pixels;
- }
-    
+    public String toString() {
+
+        return " Puncte: " + this.points + " Arie: " + this.area + " Pixels: " + this.selected_pixels;
+    }
+
 }

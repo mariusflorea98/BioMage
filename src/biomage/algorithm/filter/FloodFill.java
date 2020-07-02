@@ -34,7 +34,7 @@ public class FloodFill implements iFilter {
     private final String id = "FloodFill";
     private int maxSelected = 0;
     private FloodData fd;
-    private int newC = 0x99FF0000;
+    private Color newC;
     private final Color colorCH = new Color(0, 150, 0, 200);
     private final Color distanceCH = new Color(0, 0, 150, 200);
     private final Color yellow = new Color(255, 255, 0, 160);
@@ -126,6 +126,7 @@ public class FloodFill implements iFilter {
                     yloc = pix.getY();
 
                 }
+                
                 if (perimeter > 5) {
                     roundness = ((4 * Math.PI * ch1.area) / (perimeter ^ 2));
                     //System.out.println("roundness: " + roundness);
@@ -279,7 +280,7 @@ public class FloodFill implements iFilter {
 
             for (int j = 0; j < nr_pixels; j++) {
                 pix = listaPuncte.get(j);
-                fd.floodLayer.getImage().setRGB(pix.getX(), pix.getY(), newC);
+                fd.floodLayer.getImage().setRGB(pix.getX(), pix.getY(), newC.getRGB());
                  
 
             }
@@ -373,6 +374,7 @@ public class FloodFill implements iFilter {
         floodOpt = template.getFloodOpt();
         imgOpt = template.getImageOpt();
         convOpt = template.getConvolutionOpt();
+        newC=template.getNewColor();
     }
 
     @Override

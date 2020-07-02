@@ -82,15 +82,9 @@ public class WassersteinDistance {
 
             double prev = 0;
             for (int i = 0; i < h1.length; i++) {
-//                final double current = (h1[i] + prev) - h2[i];
-//                distance += Math.abs(current);
-//                prev = current;   //wasserstein
-                
-//                    final double current = h1[i]-h2[i];
-//                    distance += Math.abs(current); //simple diff
-                
-                 final double current = h1[i]-h2[i];
-                 distance+=Math.abs(current);
+                final double current = (h1[i] + prev) - h2[i];
+                distance += Math.abs(current);
+                prev = current;   
 
             }
             

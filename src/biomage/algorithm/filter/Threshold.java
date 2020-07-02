@@ -7,8 +7,7 @@ package biomage.algorithm.filter;
 
 import biomage.algorithm.iFilter;
 import biomage.algorithm.template.ThresholdTemplate;
-import biomage.algorithm.template.iFilterTemplate;
-import java.awt.Color;
+import biomage.algorithm.template.iFilterTemplate; 
 import java.awt.image.BufferedImage;
 
 /**

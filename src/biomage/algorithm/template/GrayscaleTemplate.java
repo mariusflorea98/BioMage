@@ -20,6 +20,16 @@ public class GrayscaleTemplate extends javax.swing.JPanel implements iFilterTemp
         initComponents();
     }
 
+     @Override
+    public JPanel getPanel() {
+    return this.jPanel1;
+    }
+
+    @Override
+    public String getId() {
+    return this.id;    
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -68,13 +78,5 @@ public class GrayscaleTemplate extends javax.swing.JPanel implements iFilterTemp
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public JPanel getPanel() {
-    return this.jPanel1;
-    }
-
-    @Override
-    public String getId() {
-    return this.id;    
-    }
+    
 }

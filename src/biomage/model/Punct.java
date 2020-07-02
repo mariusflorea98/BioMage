@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Punct {
 
-    protected int x = -1;
+    private int x = -1;
     private int y = -1;
     private int rgbBase;
     double distance;

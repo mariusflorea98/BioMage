@@ -71,7 +71,7 @@ public class Kernel {
             public float[][] getKernel() {
                 return new float[][]{
                     {-2, -1, 0},
-                    {-1, 1, -1},
+                    {-1, 0, -1},
                     {0, 1, 2}};
             }
 
