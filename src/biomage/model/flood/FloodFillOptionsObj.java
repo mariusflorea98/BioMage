@@ -11,26 +11,27 @@ public class FloodFillOptionsObj {
     final private int iToleranta;
     final private int fAFactor;
     final private int nrVecini;
-    private boolean pixelDelete;
+    private boolean export;
     private boolean convHullOp;
     private Color newColor;
 
     public FloodFillOptionsObj(final int iToleranta, final int fAFactor, final int nrVecini, Color newColor,
-            boolean convHullOp) {
+            boolean convHullOp, boolean export) {
 
         this.iToleranta = iToleranta;
         this.fAFactor = fAFactor;
         this.nrVecini = nrVecini;
         this.convHullOp = convHullOp;
         this.newColor = newColor;
+        this.export = export;
     }
 
-    public boolean getDeleteOp() {
-        return this.pixelDelete;
+    public boolean getExport() {
+        return this.export;
     }
 
-    public void setDeleteOp(boolean opt) {
-        this.pixelDelete = opt;
+    public void setExport(boolean opt) {
+        this.export = opt;
     }
 
     public boolean getConvHullOp() {
@@ -53,9 +54,13 @@ public class FloodFillOptionsObj {
         return nrVecini;
     }
 
+    public Color getColor() {
+        return this.newColor;
+    }
+
     public String toString() {
-        return "Toleranta:" + iToleranta + " FA:" + fAFactor + " Vecini:" + nrVecini + " ConvexHull:" //+ onvHullOp
-                + " Delete Pixels:" + pixelDelete;
+        return "Toleranta:" + iToleranta + " FA:" + fAFactor + " Vecini:" + nrVecini + " ConvexHull:"
+                + " Exported Pixels:" + export;
 
     }
 

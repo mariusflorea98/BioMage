@@ -17,6 +17,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import static java.lang.Math.sqrt;
 
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,6 +40,7 @@ public class FloodFill implements iFilter {
     private int maxSelected = 0;
     private FloodData fd;
     private Color newC;
+    private GrahamScan gs;
     private final Color colorCH = new Color(0, 150, 0, 200);
     private final Color distanceCH = new Color(0, 0, 150, 200);
     private final Color yellow = new Color(255, 255, 0, 160);
@@ -126,12 +132,11 @@ public class FloodFill implements iFilter {
                     yloc = pix.getY();
 
                 }
-                
+
                 if (perimeter > 5) {
                     roundness = ((4 * Math.PI * ch1.area) / (perimeter ^ 2));
                     //System.out.println("roundness: " + roundness);
                 }
-                // Rectangle2D poz = poly.getBounds2D();              //bounding box
 
                 grImg.setColor(yellow);
                 grImg.fillPolygon(poly);
@@ -158,14 +163,77 @@ public class FloodFill implements iFilter {
         }
 
         fd.avgRegionsLum /= fd.regions;
-        fd.rejected_avgRegionsLum = rej_avgLum / rejected_area;
-
+        //fd.rejected_avgRegionsLum = rej_avgLum / rejected_area;
         System.out.println("avgRegionLum: " + fd.avgRegionsLum);
-        System.out.println("rejected avgRegionLum: " + fd.rejected_avgRegionsLum);
         System.out.println("regions: " + fd.regions);
         System.out.println("pixeli<lum_min: " + fd.pixels_belowInterval);
         System.out.println("pixeli intre: " + fd.pixels_inInterval);
         System.out.println("pixeli>lum_max: " + fd.pixels_aboveInterval);
+
+        try {
+            FileWriter writer = new FileWriter(new File("cells.csv"), true);
+            StringBuilder csvWriter = new StringBuilder();
+
+            csvWriter.append("\n");
+
+            csvWriter.append(imgOpt.getArieMin() + " - " + imgOpt.getArieMax());
+            csvWriter.append(",");
+            csvWriter.append(imgOpt.getAverageLumMin() + " - " + imgOpt.getAverageLumMax());
+            csvWriter.append(",");
+            csvWriter.append(floodOpt.getToleranta());
+            csvWriter.append(",");
+            csvWriter.append(floodOpt.getFAFactor());
+            csvWriter.append(",");
+            csvWriter.append(floodOpt.getVecini());
+            csvWriter.append(",");
+            csvWriter.append(fd.regions);
+            csvWriter.append(",");
+            csvWriter.append(fd.avgRegionsLum);
+            csvWriter.append(",");
+            csvWriter.append(fd.pixels_belowInterval);
+            csvWriter.append(",");
+            csvWriter.append(fd.pixels_inInterval);
+            csvWriter.append(",");
+            csvWriter.append(fd.pixels_aboveInterval);
+            writer.write(csvWriter.toString());
+
+            writer.close();
+
+            System.out.println("Exported...");
+        } catch (IOException ex) {
+            Logger.getLogger(FloodFill.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void initCSV() {
+        try {
+            FileWriter writer = new FileWriter(new File("cells.csv"), true);
+
+            StringBuilder csvWriter = new StringBuilder();
+            csvWriter.append("Input_Area");
+            csvWriter.append(",");
+            csvWriter.append("Input_AverageLuminance");
+            csvWriter.append(",");
+            csvWriter.append("Input_Threshold");
+            csvWriter.append(",");
+            csvWriter.append("Input_AdaptiveFactor");
+            csvWriter.append(",");
+            csvWriter.append("Input_Neighbors");
+            csvWriter.append(",");
+            csvWriter.append("cells");
+            csvWriter.append(",");
+            csvWriter.append("avgRegionLum");
+            csvWriter.append(",");
+            csvWriter.append("pixels<lum_min");
+            csvWriter.append(",");
+            csvWriter.append("pixels intre");
+            csvWriter.append(",");
+            csvWriter.append("pixels>lum_max");
+
+        } catch (IOException ex) {
+            Logger.getLogger(FloodFill.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -281,17 +349,16 @@ public class FloodFill implements iFilter {
             for (int j = 0; j < nr_pixels; j++) {
                 pix = listaPuncte.get(j);
                 fd.floodLayer.getImage().setRGB(pix.getX(), pix.getY(), newC.getRGB());
-                 
 
             }
 
             if (floodOpt.getConvHullOp() == true) {
-                if (nr_pixels > 3 && GrahamScan.Coliniaritate(listaPuncte) == 0) {
-                    convexHull = GrahamScan.ConvexHull(listaPuncte);
+                if (nr_pixels > 3 && gs.Coliniaritate(listaPuncte) == 0) {
+                    convexHull = gs.ConvexHull(listaPuncte);
                     double area = shoelaceArea(convexHull);
 
                     ConvexHullObj ch = new ConvexHullObj(convexHull, area, nr_pixels);
-                    
+
                     fd.hulls.add(ch);
 
                 }
@@ -306,8 +373,6 @@ public class FloodFill implements iFilter {
                 fd.pixels_aboveInterval++;
             }
 
-            
-            
         }
 
     }
@@ -318,7 +383,7 @@ public class FloodFill implements iFilter {
 
         fd = ReadImagePixels(imgStart);
         BufferedImage copy = new BufferedImage(imgStart.getWidth(), imgStart.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
+        gs = new GrahamScan();
         for (int i = 0; i < imgStart.getWidth(); i++) {
             for (int j = 0; j < imgStart.getHeight(); j++) {
                 copy.setRGB(i, j, imgStart.getRGB(i, j));
@@ -326,7 +391,7 @@ public class FloodFill implements iFilter {
         }
 
         Punct pozitie = new Punct();
- 
+
         for (int y = 0; y < imgStart.getHeight(); y++) {
             for (int x = 0; x < imgStart.getWidth(); x++) {
                 {
@@ -341,15 +406,17 @@ public class FloodFill implements iFilter {
                 }
             }
         }
-        analiza(imgStart);
+
+        if (floodOpt.getExport() == true) {
+            analiza(imgStart);
+        }
+
         if (fd.hulls != null) {
             drawHull();
         }
-        
-      
-        
+
         System.out.println(fd.regions);
-       
+
     }
 
     @Override
@@ -359,7 +426,7 @@ public class FloodFill implements iFilter {
         BufferedImage img = fd.floodLayer.getImage();
         BufferedImage hullImg = fd.hullLayer.getImage();
         image.getGraphics().drawImage(img, 0, 0, null);
-        //image.getGraphics().drawImage(hullImg,0,0,null);
+        image.getGraphics().drawImage(hullImg, 0, 0, null);
 
     }
 
@@ -374,7 +441,7 @@ public class FloodFill implements iFilter {
         floodOpt = template.getFloodOpt();
         imgOpt = template.getImageOpt();
         convOpt = template.getConvolutionOpt();
-        newC=template.getNewColor();
+        newC = floodOpt.getColor();
     }
 
     @Override

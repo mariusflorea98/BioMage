@@ -39,7 +39,7 @@ public class FloodData {
         this.hullLayer = hullLayer;
         this.pixel_visited = pixel_visited;
         this.luminance = luminance;
-        //this.hulls=new Vector();
+        this.hulls=new Vector();
     }
 
     public FloodData() {

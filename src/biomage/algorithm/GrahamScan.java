@@ -1,3 +1,4 @@
+package biomage.algorithm;
 /*
  * Copyright (c) 2010, Bart Kiers
  *
@@ -21,21 +22,21 @@
  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
- */
-package biomage.algorithm;
+ */ 
+ 
  
 import biomage.model.Punct;
 import java.util.*;
 
 public class GrahamScan {
 
-    public static final int clockwise = -1, countercl = 1, collinear = 0;
+    public final int clockwise = -1, countercl = 1, collinear = 0;
 
-    GrahamScan() {
-
+    public GrahamScan() {
+        
     }
 
-    public static int Coliniaritate(List<Punct> Puncte) {
+    public  int Coliniaritate(List<Punct> Puncte) {
         if (Puncte.size() <= 2) {
             return 1;
         }
@@ -58,7 +59,7 @@ public class GrahamScan {
         return 1;
     }
 
-    public static List<Punct> ConvexHull(List<Punct> Puncte) throws IllegalArgumentException {
+    public List<Punct> ConvexHull(List<Punct> Puncte) throws IllegalArgumentException {
         List<Punct> sorted = new ArrayList<Punct>(sortarePuncte(Puncte));
         if (sorted.size() < 3) {
             throw new IllegalArgumentException("O invelitoare convexa este formata din minim 3 puncte.");
@@ -99,25 +100,22 @@ public class GrahamScan {
 
     }
 
-    public static Punct PunctMinim(List<Punct> Puncte) {
 
-        Punct min = Puncte.get(0);
+    public Set<Punct> sortarePuncte(List<Punct> Puncte) {
+
+         Punct min2 = Puncte.get(0);
 
         for (int i = 1; i < Puncte.size(); i++) {
 
             Punct aux = Puncte.get(i);
 
-            if (aux.getY() < min.getY() || (aux.getY() == min.getY() && aux.getX() < min.getX())) {
-                min = aux;
+            if (aux.getY() < min2.getY() || (aux.getY() == min2.getY() && aux.getX() < min2.getX())) {
+                min2 = aux;
             }
         }
 
-        return min;
-    }
-
-    public static Set<Punct> sortarePuncte(List<Punct> Puncte) {
-
-        Punct min = PunctMinim(Puncte);
+        
+        Punct min = min2;
 
         TreeSet<Punct> set = new TreeSet<Punct>(new Comparator<Punct>() {
 
@@ -135,7 +133,7 @@ public class GrahamScan {
                 } else if (thetaA > thetaB) {
                     return 1;
                 } else {
-                    //collinear 
+               
                     double distanceA = Math.sqrt((((long) min.getX() - a.getX()) * ((long) min.getX() - a.getX()))
                             + (((long) min.getY() - a.getY()) * ((long) min.getY() - a.getY())));
                     double distanceB = Math.sqrt((((long) min.getX() - b.getX()) * ((long) min.getX() - b.getX()))
@@ -154,7 +152,7 @@ public class GrahamScan {
         return set;
     }
 
-    public static int Orientare(Punct a, Punct b, Punct c) {
+    public int Orientare(Punct a, Punct b, Punct c) {
 
         long produsVectorial = ((b.getX() - a.getX()) * (c.getY() - a.getY())) - ((b.getY() - a.getY()) * (c.getX() - a.getX()));
 

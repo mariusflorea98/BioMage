@@ -1,0 +1,6 @@
+Input_Area,Input_AverageLuminance,Input_Threshold,Input_AdaptiveFactor,Input_Neighbors,cells,avgRegionLum,pixels<lum_min,pixels intre,pixels>lum_max
+0 - 5000,0.0 - 1.0,30,30,8,202879,0.5664247,0,1575514,0
+0 - 5000,0.0 - 1.0,30,30,8,202879,0.5664247,0,1575514,0
+0 - 5000,0.0 - 1.0,30,30,8,202879,0.5664247,0,1575514,0
+0 - 3351,0.0 - 0.74,30,30,8,155068,0.47702274,0,1223327,50753
+0 - 5000,0.0 - 1.0,30,30,8,202879,0.5664247,0,1575514,0
