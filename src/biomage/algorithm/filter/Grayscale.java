@@ -16,9 +16,10 @@ import java.awt.image.BufferedImage;
  */
 public class Grayscale implements iFilter {
       private final String id = "Grayscale";
-    GrayscaleTemplate template;
+    
+      GrayscaleTemplate template;
 
-    Grayscale() {
+    public Grayscale() {
     }
 
     @Override
