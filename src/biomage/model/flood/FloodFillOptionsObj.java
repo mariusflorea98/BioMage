@@ -13,16 +13,18 @@ public class FloodFillOptionsObj {
     final private int nrVecini;
     private boolean export;
     private boolean convHullOp;
+    private boolean showHull;
     private Color newColor;
 
     public FloodFillOptionsObj(final int iToleranta, final int fAFactor, final int nrVecini, Color newColor,
-            boolean convHullOp, boolean export) {
+            boolean convHullOp, boolean showHull, boolean export) {
 
         this.iToleranta = iToleranta;
         this.fAFactor = fAFactor;
         this.nrVecini = nrVecini;
         this.convHullOp = convHullOp;
         this.newColor = newColor;
+        this.showHull = showHull;
         this.export = export;
     }
 
@@ -32,6 +34,14 @@ public class FloodFillOptionsObj {
 
     public void setExport(boolean opt) {
         this.export = opt;
+    }
+
+    public boolean getShowHull() {
+        return this.showHull;
+    }
+
+    public void setShowHull(boolean show) {
+        this.showHull = show;
     }
 
     public boolean getConvHullOp() {

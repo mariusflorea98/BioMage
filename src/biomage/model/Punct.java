@@ -7,7 +7,7 @@ public class Punct {
     private int x = -1;
     private int y = -1;
     private int rgbBase;
-    double distance;
+    private double distance;
     public Punct[] puncte;
     public Punct varf1,varf2;
     
@@ -50,6 +50,10 @@ public class Punct {
         return rgbBase;
 
     }
+   
+   public double getDistance(){
+       return this.distance;
+   }
 
    public void setX(int x) {
         this.x = x;

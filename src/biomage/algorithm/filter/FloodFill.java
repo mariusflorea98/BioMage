@@ -4,10 +4,10 @@ import biomage.algorithm.GrahamScan;
 import biomage.algorithm.iFilter;
 import biomage.algorithm.template.FloodFillTemplate;
 import biomage.algorithm.template.iFilterTemplate;
+import biomage.algorithm.Analyzer;
 import biomage.model.Layer;
 import biomage.model.Punct;
 import biomage.model.flood.ConvexHullObj;
-import biomage.model.flood.ConvexHullOptionsObj;
 import biomage.model.flood.FloodData;
 import biomage.model.flood.FloodFillOptionsObj;
 import biomage.model.flood.ImageOptionsObj;
@@ -17,9 +17,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import static java.lang.Math.sqrt;
 
 import java.util.ArrayList;
@@ -27,8 +24,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -47,7 +42,6 @@ public class FloodFill implements iFilter {
     FloodFillTemplate template;
     FloodFillOptionsObj floodOpt;
     ImageOptionsObj imgOpt;
-    ConvexHullOptionsObj convOpt;
 
     public FloodData ReadImagePixels(BufferedImage img) {
 
@@ -99,7 +93,7 @@ public class FloodFill implements iFilter {
                 / 2.0;
     }
 
-    void drawHull() {
+    void analyzeHulls() {
         int nrHull = 0;
         final Graphics2D grImg = (Graphics2D) fd.hullLayer.getImage().getGraphics();
 
@@ -107,134 +101,53 @@ public class FloodFill implements iFilter {
         grImg.setStroke(new BasicStroke(2));
         Polygon poly;
         Vector<ConvexHullObj> ch = fd.hulls;
+        Punct p = null;
 
         int perimeter;
-        double roundness;
+        double roundness = 0;
         for (ConvexHullObj ch1 : ch) {
             perimeter = 0;
-            if (ch1.area > fd.convOptions.areaLower
-                    && ch1.area < fd.convOptions.areaUpper
-                    && ((float) ch1.selected_pixels) / (ch1.area) < fd.convOptions.selectedUpper
-                    && ((float) ch1.selected_pixels) / ch1.area >= fd.convOptions.selectedLower) {
 
-                nrHull++;
-                grImg.setColor(colorCH);
-                poly = new Polygon();
-                Punct pix = ch1.points.get(0);
-                int xloc = pix.getX(), yloc = pix.getY();
-                for (int j = 1; j < ch1.points.size(); j++) {   //replace with draw poly
-                    pix = ch1.points.get(j);
+            grImg.setColor(colorCH);
+            poly = new Polygon();
+            Punct pix = ch1.points.get(0);
+            int xloc = pix.getX(), yloc = pix.getY();
+
+            for (int j = 1; j < ch1.points.size(); j++) {
+                pix = ch1.points.get(j);
+                perimeter += sqrt((pix.getX() - xloc) ^ 2 + (pix.getY() - yloc) ^ 2);
+                xloc = pix.getX();
+                yloc = pix.getY();
+
+                if (floodOpt.getShowHull()) {
                     poly.addPoint(pix.getX(), pix.getY());
                     grImg.drawLine(xloc, yloc, pix.getX(), pix.getY());
-                    perimeter += sqrt((pix.getX() - xloc) ^ 2 + (pix.getY() - yloc) ^ 2);
-
-                    xloc = pix.getX();
-                    yloc = pix.getY();
-
                 }
 
-                if (perimeter > 5) {
-                    roundness = ((4 * Math.PI * ch1.area) / (perimeter ^ 2));
-                    //System.out.println("roundness: " + roundness);
-                }
+            }
 
+            if (floodOpt.getShowHull()) {
                 grImg.setColor(yellow);
                 grImg.fillPolygon(poly);
                 grImg.setColor(colorCH);
                 grImg.drawLine(xloc, yloc, ch1.points.get(0).getX(), ch1.points.get(0).getY());
-                Punct p = pointsDistance(ch1.points);
+                p = pointsDistance(ch1.points);
                 grImg.setColor(distanceCH);
                 grImg.drawLine(p.varf1.getX(), p.varf1.getY(),
                         p.varf2.getX(), p.varf2.getY());
+
             }
-        }
-        System.out.println(nrHull);
-    }
-
-    void analiza(BufferedImage imgStart) {
-        int imgArea = imgStart.getHeight() * imgStart.getWidth();
-        int rejected_area = imgArea - fd.iTotalArea;
-        float rej_avgLum = 0;
-        for (int y = 0; y < imgStart.getHeight(); y++) {
-            for (int x = 0; x < imgStart.getWidth(); x++) {
-                if (imgStart.getRGB(x, y) == 0);
-                rej_avgLum += fd.luminance[y][x];
+            if (perimeter > 5) {
+                roundness = ((perimeter * perimeter) /(4 * Math.PI * ch1.selected_pixels) );
+               if(roundness>0.5) {nrHull++;
+               }
+                System.out.println(roundness);
             }
+
         }
-
-        fd.avgRegionsLum /= fd.regions;
-        //fd.rejected_avgRegionsLum = rej_avgLum / rejected_area;
-        System.out.println("avgRegionLum: " + fd.avgRegionsLum);
-        System.out.println("regions: " + fd.regions);
-        System.out.println("pixeli<lum_min: " + fd.pixels_belowInterval);
-        System.out.println("pixeli intre: " + fd.pixels_inInterval);
-        System.out.println("pixeli>lum_max: " + fd.pixels_aboveInterval);
-
-        try {
-            FileWriter writer = new FileWriter(new File("cells.csv"), true);
-            StringBuilder csvWriter = new StringBuilder();
-
-            csvWriter.append("\n");
-
-            csvWriter.append(imgOpt.getArieMin() + " - " + imgOpt.getArieMax());
-            csvWriter.append(",");
-            csvWriter.append(imgOpt.getAverageLumMin() + " - " + imgOpt.getAverageLumMax());
-            csvWriter.append(",");
-            csvWriter.append(floodOpt.getToleranta());
-            csvWriter.append(",");
-            csvWriter.append(floodOpt.getFAFactor());
-            csvWriter.append(",");
-            csvWriter.append(floodOpt.getVecini());
-            csvWriter.append(",");
-            csvWriter.append(fd.regions);
-            csvWriter.append(",");
-            csvWriter.append(fd.avgRegionsLum);
-            csvWriter.append(",");
-            csvWriter.append(fd.pixels_belowInterval);
-            csvWriter.append(",");
-            csvWriter.append(fd.pixels_inInterval);
-            csvWriter.append(",");
-            csvWriter.append(fd.pixels_aboveInterval);
-            writer.write(csvWriter.toString());
-
-            writer.close();
-
-            System.out.println("Exported...");
-        } catch (IOException ex) {
-            Logger.getLogger(FloodFill.class.getName()).log(Level.SEVERE, null, ex);
+        if (nrHull != 0) {
+            System.out.println("nr hull " + nrHull);
         }
-
-    }
-
-    private void initCSV() {
-        try {
-            FileWriter writer = new FileWriter(new File("cells.csv"), true);
-
-            StringBuilder csvWriter = new StringBuilder();
-            csvWriter.append("Input_Area");
-            csvWriter.append(",");
-            csvWriter.append("Input_AverageLuminance");
-            csvWriter.append(",");
-            csvWriter.append("Input_Threshold");
-            csvWriter.append(",");
-            csvWriter.append("Input_AdaptiveFactor");
-            csvWriter.append(",");
-            csvWriter.append("Input_Neighbors");
-            csvWriter.append(",");
-            csvWriter.append("cells");
-            csvWriter.append(",");
-            csvWriter.append("avgRegionLum");
-            csvWriter.append(",");
-            csvWriter.append("pixels<lum_min");
-            csvWriter.append(",");
-            csvWriter.append("pixels intre");
-            csvWriter.append(",");
-            csvWriter.append("pixels>lum_max");
-
-        } catch (IOException ex) {
-            Logger.getLogger(FloodFill.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     Punct pointsDistance(List<Punct> cH) {
@@ -378,7 +291,7 @@ public class FloodFill implements iFilter {
     }
 
     public void FloodFillImage(BufferedImage imgStart, FloodFillOptionsObj floodOpt,
-            ImageOptionsObj imgOpt, ConvexHullOptionsObj convOpt
+            ImageOptionsObj imgOpt
     ) {
 
         fd = ReadImagePixels(imgStart);
@@ -408,21 +321,20 @@ public class FloodFill implements iFilter {
         }
 
         if (floodOpt.getExport() == true) {
-            analiza(imgStart);
+            Analyzer an = new Analyzer(imgStart, imgOpt, floodOpt, fd);
+            an.start();
         }
 
         if (fd.hulls != null) {
-            drawHull();
+            analyzeHulls();
         }
-
-        System.out.println(fd.regions);
 
     }
 
     @Override
     public void apply(BufferedImage image) {
 
-        FloodFillImage(image, floodOpt, imgOpt, convOpt);
+        FloodFillImage(image, floodOpt, imgOpt);
         BufferedImage img = fd.floodLayer.getImage();
         BufferedImage hullImg = fd.hullLayer.getImage();
         image.getGraphics().drawImage(img, 0, 0, null);
@@ -440,7 +352,6 @@ public class FloodFill implements iFilter {
         template = (FloodFillTemplate) bTemp;
         floodOpt = template.getFloodOpt();
         imgOpt = template.getImageOpt();
-        convOpt = template.getConvolutionOpt();
         newC = floodOpt.getColor();
     }
 

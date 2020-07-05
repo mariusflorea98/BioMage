@@ -30,8 +30,7 @@ public class FloodData {
     public boolean[][] pixel_visited;
     public float[][] luminance;
     public Vector<ConvexHullObj> hulls; 
-    public ConvexHullOptionsObj convOptions;
-
+    
     public FloodData(int iTotalArea, iLayer floodLayer, iLayer hullLayer, boolean[][] pixel_visited, float[][] luminance) {
 
         this.iTotalArea = iTotalArea;

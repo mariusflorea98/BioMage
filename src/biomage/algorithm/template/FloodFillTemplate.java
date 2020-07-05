@@ -5,8 +5,7 @@
  */
 package biomage.algorithm.template;
 
-import biomage.model.FloodPreviewOptions;
-import biomage.model.flood.ConvexHullOptionsObj;
+import biomage.model.FloodPreviewOptions; 
 import biomage.model.flood.FloodFillOptionsObj;
 import biomage.model.flood.ImageOptionsObj;
 import biomage.view.comp.slider.RangeSlider;
@@ -23,11 +22,11 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
 
     private final String id = "FloodFill";
     private FloodFillOptionsObj floodOptions;
-    private ImageOptionsObj imgOptions;
-    private ConvexHullOptionsObj convOptions;
+    private ImageOptionsObj imgOptions; 
     private int toleranta = 0, fA = 0;
     private int vecini = 8;
     private boolean hullOp = false;
+    private boolean showHull = false;
     private boolean export = false;
     private int R = 255, G = 0, B = 0, A = 125;
     private Color newColor = new Color(R, G, B);
@@ -68,13 +67,6 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        rangeSlider3 = new biomage.view.comp.slider.RangeSlider();
-        rangeSlider4 = new biomage.view.comp.slider.RangeSlider();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jSlider1 = new javax.swing.JSlider();
         jSlider2 = new javax.swing.JSlider();
         jSlider3 = new javax.swing.JSlider();
@@ -89,6 +81,8 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jRadioButton3 = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setForeground(new java.awt.Color(255, 255, 255));
 
@@ -146,21 +140,6 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                 jButton1ActionPerformed(evt);
             }
         });
-
-        jToggleButton2.setText("Measure");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
-            }
-        });
-
-        rangeSlider3.setBackground(new java.awt.Color(255, 255, 255));
-
-        rangeSlider4.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel10.setText("0");
-
-        jLabel12.setText("0");
 
         jSlider1.setMaximum(255);
         jSlider1.setPaintTrack(false);
@@ -227,6 +206,21 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
             }
         });
 
+        jRadioButton4.setBackground(new java.awt.Color(255, 255, 255));
+        jRadioButton4.setText("Circularity");
+        jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton4ActionPerformed(evt);
+            }
+        });
+
+        jToggleButton1.setText("Show");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -253,8 +247,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(rangeSlider2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(125, 125, 125)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,36 +260,31 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                                         .addComponent(jRadioButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jRadioButton2)))))))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)
-                                .addComponent(rangeSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rangeSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(12, 12, 12))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel18))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel18))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                            .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jRadioButton4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jToggleButton1))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -313,14 +301,10 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel21))
-                            .addComponent(jRadioButton3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24))
+                                .addComponent(jLabel21)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,60 +342,44 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
                                         .addComponent(rangeSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(22, 22, 22)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, 0)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(22, 22, 22)
+                                        .addGap(26, 26, 26)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(4, 4, 4)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(26, 26, 26)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jRadioButton1)
-                                                    .addComponent(jRadioButton2)))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel4))
-                                                .addGap(0, 0, 0)
-                                                .addComponent(jLabel5)))
+                                            .addComponent(jRadioButton1)
+                                            .addComponent(jRadioButton2))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jToggleButton2)))
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jLabel21)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jToggleButton1)
+                                                .addComponent(jRadioButton4))
+                                            .addComponent(jLabel4))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jRadioButton3)))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
+                                .addGap(18, 18, 18)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSlider4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel21)
                             .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(11, 11, 11)
-                                    .addComponent(rangeSlider3, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)))))
-                .addGap(16, 16, 16)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rangeSlider4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(66, 66, 66))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -421,7 +389,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -444,15 +412,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         rangeSlider2.setValue(0);
         rangeSlider2.setUpperValue(100);
 
-        rangeSlider3.setMinimum(0);
-        rangeSlider3.setMaximum(prevOpt.AREA_MAX);
-        rangeSlider3.setValue(0);
-        rangeSlider3.setUpperValue(prevOpt.AREA_MAX);
-
-        rangeSlider4.setMinimum(0);
-        rangeSlider4.setMaximum(100);
-        rangeSlider4.setValue(0);
-        rangeSlider4.setUpperValue(100);
+        
 
         rangeSlider1.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -472,35 +432,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
             }
         });
 
-        rangeSlider3.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                RangeSlider slider = (RangeSlider) e.getSource();
-                jLabel12.setText(String.valueOf(slider.getValue()));
-                jLabel11.setText(String.valueOf(slider.getUpperValue()));
-            }
-        });
-
-        rangeSlider4.addChangeListener(new ChangeListener() {
-
-            public void stateChanged(ChangeEvent e) {
-                RangeSlider slider = (RangeSlider) e.getSource();
-                jLabel10.setText(String.valueOf(slider.getValue()));
-                jLabel13.setText(String.valueOf(slider.getUpperValue()));
-            }
-        });
-
-        rangeSlider3.setVisible(false);
-        rangeSlider4.setVisible(false);
-        jLabel10.setVisible(false);
-        jLabel11.setVisible(false);
-        jLabel12.setVisible(false);
-        jLabel13.setVisible(false);
-        jLabel12.setText(String.valueOf(0));
-        jLabel10.setText(String.valueOf(0));
-
-        jLabel11.setText(String.valueOf(rangeSlider1.getUpperValue()));
-        jLabel13.setText(String.valueOf(rangeSlider2.getUpperValue()));
-
+       
         jLabel8.setText(String.valueOf(0));
         jLabel9.setText(String.valueOf(0));
         jLabel6.setText(String.valueOf(rangeSlider1.getUpperValue()));
@@ -517,6 +449,9 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         jLabel16.setText(String.valueOf(jSlider2.getValue()));
         jLabel18.setText(String.valueOf(jSlider3.getValue()));
         jLabel15.setText(String.valueOf(jSlider4.getValue()));
+        
+        jToggleButton1.setVisible(false);
+        
         setOptions();
 
     }
@@ -533,7 +468,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
     private void setOptions() {
         floodOptions = FloodOptions();
         imgOptions = ImageOptions();
-        convOptions = ConvexOptions();
+      
     }
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -544,30 +479,6 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
 
         vecini = 8;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
-
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        if (hullOp == true) {
-            hullOp = false;
-            rangeSlider3.setVisible(false);
-            rangeSlider4.setVisible(false);
-            jLabel10.setVisible(false);
-            jLabel11.setVisible(false);
-            jLabel12.setVisible(false);
-            jLabel13.setVisible(false);
-            floodOptions.setConvHullOp(false);
-        } else {
-            hullOp = true;
-            rangeSlider3.setVisible(true);
-            rangeSlider4.setVisible(true);
-            jLabel10.setVisible(true);
-            jLabel11.setVisible(true);
-            jLabel12.setVisible(true);
-            jLabel13.setVisible(true);
-
-            floodOptions.setConvHullOp(true);
-
-        }
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
         jLabel14.setText(String.valueOf(jSlider1.getValue()));
@@ -602,11 +513,28 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
 
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
+    private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
+      hullOp=jRadioButton4.isSelected();
+      
+     if(hullOp==true){
+         jToggleButton1.setVisible(true);
+     }
+     else{
+         jToggleButton1.setVisible(false);
+         showHull=false;
+     }
+      
+    }//GEN-LAST:event_jRadioButton4ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+      showHull = jToggleButton1.isSelected();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+
     private FloodFillOptionsObj FloodOptions() {
         toleranta = Integer.parseInt(jTextField1.getText());
         fA = Integer.parseInt(jTextField2.getText());
 
-        FloodFillOptionsObj flOpt = new FloodFillOptionsObj(toleranta, fA, vecini, new Color(newColor.getRed(), newColor.getGreen(), newColor.getBlue(), A), hullOp,export);
+        FloodFillOptionsObj flOpt = new FloodFillOptionsObj(toleranta, fA, vecini, new Color(newColor.getRed(), newColor.getGreen(), newColor.getBlue(), A), hullOp,showHull,export);
 
         return flOpt;
 
@@ -632,18 +560,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
 
     }
 
-    private ConvexHullOptionsObj ConvexOptions() {
-        float average_lum_max = (float) rangeSlider4.getUpperValue() / 100;
-        float average_lum_min = (float) rangeSlider4.getValue() / 100;
-
-        int arie_max = rangeSlider3.getUpperValue();
-        int arie_min = rangeSlider3.getValue();
-
-        ConvexHullOptionsObj convOpt = new ConvexHullOptionsObj(arie_min, arie_max, average_lum_min, average_lum_max);
-
-        return convOpt;
-
-    }
+    
 
     public FloodFillOptionsObj getFloodOpt() {
         return this.floodOptions;
@@ -653,9 +570,7 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
         return this.imgOptions;
     }
 
-    public ConvexHullOptionsObj getConvolutionOpt() {
-        return this.convOptions;
-    }
+   
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -663,10 +578,6 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -687,17 +598,16 @@ public class FloodFillTemplate extends javax.swing.JPanel implements iFilterTemp
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSlider jSlider2;
     private javax.swing.JSlider jSlider3;
     private javax.swing.JSlider jSlider4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton1;
     private biomage.view.comp.slider.RangeSlider rangeSlider1;
     private biomage.view.comp.slider.RangeSlider rangeSlider2;
-    private biomage.view.comp.slider.RangeSlider rangeSlider3;
-    private biomage.view.comp.slider.RangeSlider rangeSlider4;
     // End of variables declaration//GEN-END:variables
 
     @Override
